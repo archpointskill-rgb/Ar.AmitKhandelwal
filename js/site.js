@@ -39,7 +39,7 @@ var hb=location.hash.slice(1);if(hb){var tb=$$('.filters button').filter(functio
 var lb=$('.lb'),cur=0;
 function vis(){return items.filter(function(g){return !g.classList.contains('hide')})}
 function show(i){var v=vis();if(!v.length)return;cur=(i+v.length)%v.length;var g=v[cur];
- $('.lb img').src=g.querySelector('img').src;$('.lb p').innerHTML=g.dataset.t+'<small>'+g.dataset.k+'</small>'}
+ var im=g.querySelector('img');$('.lb img').src=im.dataset.full||im.src;$('.lb p').innerHTML=g.dataset.t+'<small>'+g.dataset.k+'</small>'}
 if(lb){items.forEach(function(g){g.addEventListener('click',function(){var v=vis();lb.classList.add('open');show(v.indexOf(g))})});
  $('.x',lb).onclick=function(){lb.classList.remove('open')};
  $('.pv',lb).onclick=function(){show(cur-1)};$('.nx',lb).onclick=function(){show(cur+1)};
@@ -61,8 +61,10 @@ if(bf){var dt=$('#dt');if(dt){var t=new Date();dt.min=t.toISOString().slice(0,10
   var L=['Hello Ar. Amit Khandelwal, I would like to book an appointment.','','Name: '+n,'Mobile: '+m,'Looking for: '+pu,'Preferred date: '+dv,'Preferred time: '+sl];
   if(ms)L.push('Message: '+ms);
   var url='https://wa.me/'+WA+'?text='+encodeURIComponent(L.join('\n'));
-  var a=$('#okLink');a.href=url;$('#ok').style.display='block';
-  var tmp=d.createElement('a');tmp.href=url;tmp.target='_blank';tmp.rel='noopener';d.body.appendChild(tmp);tmp.click();tmp.remove()})}
+  var a=$('#okLink');a.href=url;a.target='_blank';a.rel='noopener';$('#ok').style.display='block';
+  try{$('#ok').scrollIntoView({block:'center'})}catch(x){}
+  var w=null;try{w=window.open(url,'_blank','noopener')}catch(x){}
+  if(!w){try{location.href=url}catch(x){}}})}
 // vcard
 var vc=$('#vcard');
 if(vc)vc.addEventListener('click',function(){var v='BEGIN:VCARD\nVERSION:3.0\nFN:Ar. Amit Khandelwal\nORG:Arch Point Consultants Pvt. Ltd.\nTITLE:Founder & CMD\nTEL;TYPE=CELL:+919982507555\nEMAIL:connect@archpointgp.com\nURL:https://archpoint.in\nADR;TYPE=WORK:;;Plot No. 92/64, Patel Marg, Sector 9, Mansarovar;Jaipur;Rajasthan;302020;India\nEND:VCARD';
@@ -85,4 +87,5 @@ var pv=$('#pv');
 if(pv){var ids=['nm','mb','pu','dt','sl','ms'];function up(){var g=function(i){return d.getElementById(i).value.trim()};var L=['Hello Ar. Amit Khandelwal, I would like to book an appointment.',''];
  if(g('nm'))L.push('Name: '+g('nm'));if(g('mb'))L.push('Mobile: '+g('mb'));if(g('pu'))L.push('Looking for: '+g('pu'));if(g('dt'))L.push('Preferred date: '+g('dt'));L.push('Preferred time: '+g('sl'));if(g('ms'))L.push('Message: '+g('ms'));pv.textContent=L.join('\n')}
  ids.forEach(function(i){var e=d.getElementById(i);e.addEventListener('input',up);e.addEventListener('change',up)});up()}
+var rl=$('#reel');if(rl){rl.querySelector('.rp').addEventListener('click',function(){var v=d.createElement('video');v.src='assets/showreel.mp4';v.controls=true;v.autoplay=true;v.playsInline=true;v.preload='auto';v.poster='assets/showreel-poster.jpg';rl.innerHTML='';rl.appendChild(v);rl.classList.add('on')})}
 })();

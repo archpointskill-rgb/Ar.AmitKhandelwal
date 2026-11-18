@@ -352,3 +352,13 @@ html,body{max-width:100%;overflow-x:hidden}
 .hero .plogo{width:min(300px,62%);margin:0 0 30px}
 footer .plogo{width:210px;max-width:100%;margin-bottom:14px}
 @media(max-width:900px){.brand .bn{font-size:1.4rem}.hero .plogo{width:min(240px,70%);margin-bottom:22px}}
+.reel{position:relative;margin-top:34px;border-radius:10px;overflow:hidden;background:#0C1B33;aspect-ratio:16/9;cursor:pointer}
+.reel img,.reel video{width:100%;height:100%;object-fit:cover;display:block}
+.reel .rp{position:absolute;inset:0;margin:auto;width:86px;height:86px;border-radius:50%;border:0;background:var(--yellow);color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 0 0 12px rgba(244,179,29,.28);transition:transform .3s}
+.reel:hover .rp{transform:scale(1.08)}.reel.on{cursor:default}
+.recg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px;margin-top:36px;max-width:820px}
+.ph.tall img{aspect-ratio:3/4}
+.recg figcaption,.teamf figcaption{padding:12px 2px 0}.recg figcaption b,.teamf figcaption b{font-family:var(--serif);font-weight:400;font-size:1.3rem;display:block}
+.recg figcaption span,.teamf figcaption span{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);font-weight:800}
+.teamf{margin-top:36px}.teamf .ph img{aspect-ratio:16/9;object-position:center 40%}
+@media(max-width:520px){.recg{gap:12px}.reel .rp{width:64px;height:64px}}
