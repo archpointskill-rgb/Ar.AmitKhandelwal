@@ -16,18 +16,52 @@ def page(fn,title,desc,body,extra=''):
     html=f'''<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title}</title><meta name="description" content="{desc}"><meta name="color-scheme" content="light">{FONTS}<link rel="icon" href="{LOGO}"><link rel="stylesheet" href="css/site.css"></head><body>{nav(fn)}<main>{body}</main>{FOOT}{extra}<script src="js/site.js"></script></body></html>'''
     open(fn,'w').write(html)
 ARR='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
-# gallery data: file, title, kind, cats
-G=[('todarmal-render','Todarmal Smarak','Civic · Exterior','exterior civic'),
-('grassfield-suite','Grassfield Valley Resort','Hospitality · Interior','interior hospitality'),
-('godhara-exterior','Godhara Ji Residence','Residential · Exterior','exterior residential'),
-('todarmal-night','Todarmal Smarak by night','Civic · Exterior','exterior civic'),
-('coworking-facade','Deepak Ji Coworking','Commercial · Facade','exterior commercial'),
-('godhara-stair','Godhara Ji Residence','Residential · Staircase','interior residential'),
-('todarmal-front','Todarmal Smarak, front view','Civic · Exterior','exterior civic'),
-('godhara-tv','Godhara Ji Residence','Residential · Living','interior residential'),
-('godhara-hall','Godhara Ji Residence','Residential · Hall','interior residential')]
-def gi(f,t,k,c):
-    return f'<figure class="gi rv" data-c="{c}" data-t="{t}" data-k="{k}"><img src="assets/img/{f}.jpg" alt="{t}" loading="lazy"><figcaption><b>{t}</b><span>{k}</span></figcaption></figure>'
+# gallery data: (cat, project, place/type, [(file,label)])
+PR=[
+('residential','Baxi Ji Residence','Residence · Architecture, PMC & Interiors',[('baxi-exterior','Exterior'),('baxi-living','Living room'),('baxi-dining','Dining'),('baxi-foyer','Foyer'),('baxi-bedroom','Master bedroom')]),
+('residential','Rakesh Ji Residence','Residence',[('rakesh-exterior','Exterior'),('rakesh-interior','Interiors')]),
+('residential','Sangeeta Ji Residence, Ajmer','Residence · 2025',[('sangeeta-exterior','Exterior'),('sangeeta-living','Living'),('sangeeta-lounge','Lounge'),('sangeeta-bedroom','Bedroom')]),
+('residential','Godara Ji Residence','Residence · 2025',[('godhara-exterior','Exterior'),('godara-bedroom','Bedroom'),('godara-stair','Staircase'),('godara-dining','Dining'),('godara-pooja','Pooja room'),('godhara-hall','Hall'),('godhara-tv','Living')]),
+('residential','Bhagwati Ji Residence, Ajmer','Residence',[('bhagwati-exterior','Exterior'),('bhagwati-hall','Hall'),('bhagwati-living','Living')]),
+('residential','Bhagwati Ji Out House','Out house',[('bhagwati-outhouse','Exterior')]),
+('residential','Kapil Ji Out House','Out house',[('kapil-exterior','Exterior'),('kapil-living','Living')]),
+('residential','Kailash Ji Residence','Residence · PMC',[('kailash-exterior','Exterior'),('kailash-bedroom','Bedroom')]),
+('residential','Vikas Jain Ji Residence','Residence · PMC',[('vikas-exterior','Exterior')]),
+('residential','High-end Residence','Residence · PMC',[('pmc-exterior','Exterior'),('pmc-living','Living'),('pmc-foyer','Foyer')]),
+('residential','Jayesh Ji Residence, Dubai','Architecture, PMC & Interiors',[('jayesh-dining','Dining'),('jayesh-living','Living')]),
+('residential','Airbnb, Siddharth Nagar, Jaipur','Hospitality residence',[('airbnb-siddharth','Exterior')]),
+('commercial','YY London','Commercial tower',[('yy-london','Exterior')]),
+('commercial','Fair Field','Mixed use',[('fairfield','Exterior')]),
+('commercial','72 Parksyde','High-rise',[('parksyde','Exterior')]),
+('commercial','GSFC Office, Jaipur','Office interiors',[('gsfc-office','Workspace')]),
+('commercial',"Goyal's Jewellery Showroom, Jaipur",'Showroom',[('goyal-exterior','Exterior'),('goyal-interior','Showroom interior')]),
+('commercial','Deepak Ji Coworking','Commercial',[('coworking-facade','Facade')]),
+('commercial','Hem Securities Office','Office tower',[('hem-office','Exterior')]),
+('commercial','Hem Securities Residence','Residence',[('hem-residence','Interior in progress')]),
+('commercial','Agrasen Industries, Mahindra SEZ','Industrial · 7.5 acres',[('agrasen-exterior','Plant'),('agrasen-interior','Interior')]),
+('hospitality','Grassfield Resorts, Delhi Road','Resort',[('grassfield-pool','Pool'),('grassfield-banquet','Banquet'),('grassfield-night','Night'),('grassfield-aerial','Aerial'),('grassfield-suite','Suite')]),
+('hospitality','Pushkar Resort','Resort',[('pushkar-cottages','Cottages'),('pushkar-main','Main block'),('pushkar-club','Clubhouse')]),
+('hospitality','Aamrai Mango Resort','Resort · with Pentaspace',[('aamrai-garden','Garden'),('aamrai-dining','Dining'),('aamrai-suite','Suite')]),
+('hospitality','Hotel Kapish','Hotel',[('kapish-exterior','Exterior'),('kapish-lobby','Lobby')]),
+('hospitality','Hotel Regenta (Royal Orchid), Khatu','Hotel',[('regenta-exterior','Exterior'),('regenta-dining','Dining'),('regenta-pool','Pool')]),
+('civic','Todarmal Smarak','Civic landmark',[('todarmal-render','Exterior'),('todarmal-night','By night'),('todarmal-front','Front view'),('todarmal-temple','Temple'),('todarmal-hall','Sanctum')]),
+('civic','Dhai Dweep, Indore','Religious',[('dhai-dweep','Exterior')]),
+('civic','Jain Temple, Kota','Religious',[('jain-temple','Exterior')]),
+('civic','Jain Sant Bhawan','Religious',[('sant-bhawan','Exterior')]),
+('institutional','Bhagwant University, Pali','Auditorium & campus',[('bhagwant-univ','Entrance'),('bhagwant-auditorium','Auditorium')]),
+('institutional','CLC Institute','Institutional',[('clc-institute','Exterior')]),
+('institutional','Global School, Hyderabad','43,934 sq ft',[('global-school','Campus')]),
+('healthcare','Amar Jain Hospital, Jaipur','Architecture, interiors & PMC',[('amarjain-exterior','Design render'),('amarjain-building','Building'),('amarjain-ward','Ward'),('amarjain-lobby','Reception')]),
+]
+CATN={'residential':'Residential','commercial':'Commercial & Industrial','hospitality':'Hospitality','civic':'Religious & Civic','institutional':'Institutional','healthcare':'Healthcare'}
+def gi(f,t,k,c,x=''):
+    return f'<figure class="gi rv{x}" data-c="{c}" data-t="{t}" data-k="{k}"><div class="ph"><img src="assets/img/{f}.jpg" alt="{t}" loading="lazy"></div><figcaption><b>{t}</b><span>{k}</span></figcaption></figure>'
+def cards(cat):
+    o=''
+    for c,n,k,im in PR:
+        if c!=cat: continue
+        o+=f'<a class="pk rv" href="gallery.html#{c}"><div class="ph"><img src="assets/img/{im[0][0]}.jpg" alt="{n}" loading="lazy"><em>{len(im)} {"photo" if len(im)==1 else "photos"}</em></div><div class="pm"><b>{n}</b><span>{k}</span></div></a>'
+    return o
 CTA='''<section><div class="wrap"><div class="ctab rv"><h2>Let's build something <mark class="hl full" style="color:#0C1B33">worth keeping</mark>.</h2><p>Share your plot, your idea or your doubt. Book a conversation with Ar. Amit Khandelwal in under a minute.</p><a class="btn" href="contact.html">Book appointment on WhatsApp '''+ARR+'''</a><p class="soc"><a href="https://archpoint.in" target="_blank" rel="noopener">archpoint.in</a><span>&middot;</span><a href="https://instagram.com/archpoint_architecture" target="_blank" rel="noopener">@archpoint_architecture</a></p></div></div></section>'''
 TEST=[('Parth Saini', 'Home Owner', '4.9', 'One of the best architects in Jaipur! Excellent services, professional approach, and very friendly nature. The house plan and commercials were explained in detail, which made everything clear and smooth.', 'Residential project, Mansarovar'), ('SP Bharill', 'Hospital Administrator', '4.8', 'Arch Point Consultants has done an excellent job in completing the Amar Jain Hospital project with architectural, interior, and PMC services, ensuring everything was delivered with precision and professionalism.', 'Amar Jain Hospital, Jaipur'), ('Riddhi Kapoor', 'Client', '4.7', 'The team was an absolute delight to work with! Their professionalism, creativity, and collaborative approach made the entire experience seamless.', 'Design consultation, Jaipur'), ('Gopal Sharma', 'Flat Owner', '4.9', 'Completed the interiors of our Seven Heaven flat so beautifully. The design, finishing, and attention to detail have truly exceeded our expectations.', 'Seven Heaven Flats, Mansarovar'), ('Anurag Aman', 'Client', '4.6', 'An amazing choice for your dream construction. A hardworking team which delivers on time and has an aesthetic sense to design your building.', 'Residence interior, Jaipur'), ('Vivek Kalra', 'Home Owner', '4.8', 'Right from the first discussion till the final handover, the team was approachable and clear in their process. They balanced creativity with practicality.', 'Residential design, Jaipur'), ('Hetansh Sheth', 'Client', '4.7', "Professional approach and creative solutions, listens to the client's demands and gives an appropriate design.", 'Design consultation, Jaipur')]
 def tcards(items):
@@ -43,13 +77,13 @@ home=f'''<section class="hero"><div class="wrap"><div>
 <div class="plate"><b>Ar. Amit Khandelwal</b><span>Founder &amp; CMD &middot; Arch Point Consultants</span></div></div></div><div class="blob b1"></div><div class="blob b2"></div><svg class="orbit" viewBox="0 0 200 200"><circle cx="100" cy="100" r="96"/><circle cx="100" cy="100" r="70"/></svg><div id="elev"></div></section>
 <div class="ticker"><div><span>Architecture</span><span>Interior Design</span><span>Project Management</span><span>Real Estate</span><span>Wellness Design</span><span>Technology</span><span>Architecture</span><span>Interior Design</span><span>Project Management</span><span>Real Estate</span><span>Wellness Design</span><span>Technology</span></div></div>
 <section><div class="wrap"><div class="numbers"><div><b data-n="20">0</b><small>Years of excellence</small></div><div><b data-n="500">0</b><small>Projects delivered</small></div><div><b data-n="10">0</b><small>Cities</small></div><div><b data-n="100">0</b><small>Team members</small></div></div></div></section>
-<section style="padding-top:20px"><div class="wrap split"><div class="imgrv rv" style="aspect-ratio:4/5"><img src="assets/img/godhara-exterior.jpg" alt="Godhara Ji Residence"></div>
+<section style="padding-top:20px"><div class="wrap split"><div class="imgrv rv" style="aspect-ratio:4/5"><img src="assets/img/baxi-exterior.jpg" alt="Baxi Ji Residence"></div>
 <div class="rv d1"><div class="eyebrow">The philosophy</div><p class="bigq">Buildings should do more than <mark class="hl">stand</mark>. They should hold <mark class="hl b">families</mark>, <mark class="hl o">businesses</mark> and futures.</p><p class="lead" style="margin:24px 0">From a two-person start with a paper attendance register to a 100+ member studio, Amit Khandelwal and Ar. Poonam Jain built Arch Point on one belief: accuracy in the plan, perfection in the detail.</p><a class="btn ghost" href="about.html">Read his story {ARR}</a></div></div></section>
 <div class="band"><div><span class="outline">Design</span><span>is our love</span><span class="outline">Design</span><span>is our love</span><span class="outline">Design</span><span>is our love</span><span class="outline">Design</span><span>is our love</span></div></div>
 <section><div class="wrap"><div class="eyebrow">Selected work</div><h2 class="rv">Projects that <mark class="hl">speak</mark> for us</h2><div class="pgrid" style="margin-top:44px">
-<div class="pc big rv" data-go="gallery.html"><div class="imgrv" style="height:auto"><img src="assets/img/todarmal-render.jpg" alt="Todarmal Smarak"></div><div class="meta"><div><span class="tag">Civic &middot; Landmark</span><h3>Todarmal Smarak</h3></div><span class="arrow">{ARR}</span></div></div>
-<div class="pc rv" data-go="gallery.html"><div class="imgrv"><img src="assets/img/grassfield-suite.jpg" alt="Grassfield Valley Resort"></div><div class="meta"><div><span class="tag">Hospitality</span><h3>Grassfield Valley Resort</h3></div><span class="arrow">{ARR}</span></div></div>
-<div class="pc rv d1" data-go="gallery.html"><div class="imgrv"><img src="assets/img/godhara-exterior.jpg" alt="Godhara Ji Residence" style="object-position:center 30%"></div><div class="meta"><div><span class="tag">Residential</span><h3>Godhara Ji Residence</h3></div><span class="arrow">{ARR}</span></div></div></div>
+<div class="pc big rv" data-go="projects.html"><div class="imgrv" style="height:auto"><img src="assets/img/baxi-living.jpg" alt="Baxi Ji Residence" style="object-position:center 60%"></div><div class="meta"><div><span class="tag">Featured &middot; Residential</span><h3>Baxi Ji Residence</h3></div><span class="arrow">{ARR}</span></div></div>
+<div class="pc rv" data-go="gallery.html#hospitality"><div class="imgrv"><img src="assets/img/grassfield-pool.jpg" alt="Grassfield Resorts"></div><div class="meta"><div><span class="tag">Hospitality</span><h3>Grassfield Resorts</h3></div><span class="arrow">{ARR}</span></div></div>
+<div class="pc rv d1" data-go="gallery.html#civic"><div class="imgrv"><img src="assets/img/todarmal-render.jpg" alt="Todarmal Smarak"></div><div class="meta"><div><span class="tag">Civic &middot; Landmark</span><h3>Todarmal Smarak</h3></div><span class="arrow">{ARR}</span></div></div></div>
 <div style="text-align:center;margin-top:40px"><a class="btn" href="projects.html">All projects {ARR}</a> <a class="btn ghost" href="gallery.html">Open gallery</a></div></div></section>
 <section class="dots"><div class="wrap"><div class="eyebrow">How we work</div><h2 class="rv">Four <mark class="hl o">pillars</mark>, one promise</h2><div class="bento">
 <div class="bx a spot rv"><svg class="conc" viewBox="0 0 200 200"><circle cx="100" cy="100" r="30"/><circle cx="100" cy="100" r="55"/><circle cx="100" cy="100" r="80"/><circle cx="100" cy="100" r="98"/></svg><span class="no">01</span><h3>Quantum Architecture</h3><p>Science, Vastu and energy alignment meet design innovation, so spaces perform far beyond aesthetics. Your vibes matter to us.</p></div>
@@ -96,22 +130,28 @@ about=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">About
 {CTA}'''
 page('about.html','About | Ar. Amit Khandelwal','The story of Ar. Amit Khandelwal and Arch Point Consultants Pvt. Ltd.: from Home Aura Arch Point to a 100+ member studio.',about)
 # ---------- PROJECTS
-also=['Hotel Regenta, Khatu','Hem Securities','Agrasen Industries','Global School Campus, Hyderabad','Sangeeta Ji Residence, Ajmer','Rakesh Ji Residence','Baxi Ji Residence','Hotel Kapish, Jaipur','JLN Auditorium','Kapish Tower','Navjeevan Science College','Udaipur Ashram','Pushkar Resort','Dhai Deep','CLC']
-proj=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">Projects</div><h1>Spaces we have <mark class="hl">brought to life</mark></h1><p class="lead">A selection across civic, commercial, hospitality and residential work. Open the gallery for the full image set.</p></div></section>
-<section style="padding-top:0"><div class="wrap"><div class="pgrid">
-<div class="pc big rv" data-go="gallery.html"><div class="imgrv"><img src="assets/img/todarmal-render.jpg" alt="Todarmal Smarak"></div><div class="meta"><div><span class="tag">Civic &middot; Landmark</span><h3>Todarmal Smarak</h3><p>A memorial landmark designed as a civic gesture, by day and lit up by night.</p></div><span class="arrow">{ARR}</span></div></div>
-<div class="pc three rv" data-go="gallery.html"><div class="imgrv"><img src="assets/img/todarmal-night.jpg" alt="Todarmal Smarak by night"></div><div class="meta"><div><span class="tag">Civic</span><h3>By night</h3></div></div></div>
-<div class="pc three rv d1" data-go="gallery.html"><div class="imgrv"><img src="assets/img/coworking-facade.jpg" alt="Deepak Ji Coworking" style="object-position:center 30%"></div><div class="meta"><div><span class="tag">Commercial</span><h3>Deepak Ji Coworking</h3></div></div></div>
-<div class="pc three rv d2" data-go="gallery.html"><div class="imgrv"><img src="assets/img/godhara-exterior.jpg" alt="Godhara Ji Residence"></div><div class="meta"><div><span class="tag">Residential</span><h3>Godhara Ji Residence</h3></div></div></div>
-<div class="pc big rv" data-go="gallery.html"><div class="imgrv"><img src="assets/img/grassfield-suite.jpg" alt="Grassfield Valley Resort"></div><div class="meta"><div><span class="tag">Hospitality</span><h3>Grassfield Valley Resort</h3><p>Resort suites designed for calm, light and a sense of arrival.</p></div><span class="arrow">{ARR}</span></div></div>
-</div></div></section>
+also=['JLN Auditorium','Kapish Tower','Navjeevan Science College','Udaipur Ashram','Varuna MUF Warehousing','JCB Workshop','Celebi','Aksh Optifibre','Siscol','Delhi Institutional Campus','Pentaspace collaborations']
+bx=[f for f in PR[0][3]]
+feat=f'''<section style="padding-top:0"><div class="wrap"><div class="eyebrow">Featured project</div><h2 class="rv">Baxi Ji <mark class="hl o">Residence</mark></h2><p class="lead rv" style="margin:14px 0 36px">A sculpted private residence, with architecture, PMC and interiors delivered together.</p>
+<div class="feat">{''.join(f'<figure class="rv{" fa" if i==0 else ""}"><div class="ph"><img src="assets/img/{f}.jpg" alt="Baxi Ji Residence, {l}" loading="lazy"></div><figcaption><b>Baxi Ji Residence</b><span>{l}</span></figcaption></figure>' for i,(f,l) in enumerate(bx))}</div>
+<div style="margin-top:34px"><a class="btn" href="gallery.html#baxi">See all in the gallery {ARR}</a></div></div></section'''
+secs=''.join(f'<section style="padding-top:0"><div class="wrap"><div class="chead rv"><h2>{CATN[c]}</h2><span>{sum(1 for p in PR if p[0]==c)} projects</span></div><div class="pkg">{cards(c)}</div></div></section>' for c in CATN)
+proj=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">Projects</div><h1>Spaces we have <mark class="hl">brought to life</mark></h1><p class="lead">Residential, commercial, hospitality, religious and institutional work across India. Open the gallery for every image.</p></div></section>
+{feat}{secs}
 <section style="background:#fff;border-block:1px solid var(--line)"><div class="wrap"><div class="eyebrow">Also delivered</div><h2 class="rv">Many more, <mark class="hl o">across India</mark></h2><div style="margin-top:30px" class="rv">{''.join(f'<span class="pill">{a}</span>' for a in also)}</div></div></section>
 {CTA}'''
 page('projects.html','Projects | Ar. Amit Khandelwal','Selected projects by Arch Point Consultants: civic, commercial, hospitality and residential architecture and interiors.',proj)
 # ---------- GALLERY
-gal=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">Gallery</div><h1>The work, <mark class="hl b">in frames</mark></h1><p class="lead">Exteriors, interiors and details from our outstanding projects. Tap any image to view it large.</p>
-<div class="filters"><button class="on" data-f="all">All</button><button data-f="exterior">Exterior</button><button data-f="interior">Interior</button><button data-f="residential">Residential</button><button data-f="commercial">Commercial</button><button data-f="hospitality">Hospitality</button><button data-f="civic">Civic</button></div></div></section>
-<section style="padding-top:0"><div class="wrap"><div class="masonry">{''.join(gi(*g) for g in G)}</div></div></section>
+items=[(c,n,l,f,k) for c,n,k,im in PR for f,l in im]
+BAXI=[x for x in items if x[1]=='Baxi Ji Residence']
+rest=[x for x in items if x[1]!='Baxi Ji Residence']
+def gfig(x,extra=''):
+    c,n,l,f,k=x
+    return gi(f,n,l+' · '+k.split(' · ')[0] if False else l,('baxi ' if n.startswith('Baxi') else '')+c,extra)
+fl=''.join(f'<button data-f="{c}">{CATN[c]}</button>' for c in CATN)
+gal=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">Gallery</div><h1>The work, <mark class="hl b">in frames</mark></h1><p class="lead">{len(items)} images from our outstanding projects, each named under its frame. Tap any image to view it large.</p>
+<div class="filters"><button class="on" data-f="all">All</button><button data-f="baxi">Baxi Ji Residence</button>{fl}</div></div></section>
+<section style="padding-top:0"><div class="wrap"><div class="gfeat">{''.join(gfig(x,' gf' if i==0 else '') for i,x in enumerate(BAXI))}</div><div class="masonry" id="gall">{''.join(gfig(x) for x in rest)}</div></div></section>
 {CTA}'''
 lb='<div class="lb"><button class="x" aria-label="Close">&times;</button><button class="pv" aria-label="Previous">&lsaquo;</button><img alt=""><p></p><button class="nx" aria-label="Next">&rsaquo;</button></div>'
 page('gallery.html','Gallery | Ar. Amit Khandelwal','Photo gallery of outstanding projects by Arch Point Consultants.',gal,lb)

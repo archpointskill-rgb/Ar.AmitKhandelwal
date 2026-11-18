@@ -35,6 +35,7 @@ var items=$$('.gi');
 $$('.filters button').forEach(function(b){b.addEventListener('click',function(){
  $$('.filters button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');var f=b.dataset.f;
  items.forEach(function(g){g.classList.toggle('hide',f!='all'&&g.dataset.c.indexOf(f)<0)})})});
+var hb=location.hash.slice(1);if(hb){var tb=$$('.filters button').filter(function(x){return x.dataset.f==hb})[0];if(tb)tb.click()}
 var lb=$('.lb'),cur=0;
 function vis(){return items.filter(function(g){return !g.classList.contains('hide')})}
 function show(i){var v=vis();if(!v.length)return;cur=(i+v.length)%v.length;var g=v[cur];
