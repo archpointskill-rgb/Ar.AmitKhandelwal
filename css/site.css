@@ -346,3 +346,9 @@ html,body{max-width:100%;overflow-x:hidden}
 .pk .ph em{position:absolute;right:10px;top:10px;background:rgba(12,27,51,.82);color:#fff;font-style:normal;font-size:.68rem;font-weight:700;letter-spacing:.08em;padding:5px 10px;border-radius:99px}
 @media(max-width:900px){.gfeat,.feat{grid-template-columns:1fr 1fr}.gfeat .gf,.feat .fa{grid-column:span 2;grid-row:auto}.gfeat .gf .ph img,.feat .fa .ph img{height:auto;min-height:0;aspect-ratio:4/3}.masonry,.pkg{grid-template-columns:1fr 1fr;gap:22px 14px}}
 @media(max-width:520px){.gfeat,.feat{grid-template-columns:1fr}.gfeat .gf,.feat .fa{grid-column:auto}.masonry,.pkg{grid-template-columns:1fr 1fr;gap:18px 10px}.gi figcaption b,.pk .pm b{font-size:1.02rem}.gi figcaption span,.pm span{font-size:.58rem}.chead h2{font-size:1.6rem}}
+.brand .bn{font-family:var(--serif);font-size:1.7rem;line-height:1;color:var(--ink);white-space:nowrap}
+.brand .bn i{color:var(--blue)}
+.plogo{display:block;height:auto;background:none}
+.hero .plogo{width:min(300px,62%);margin:0 0 30px}
+footer .plogo{width:210px;max-width:100%;margin-bottom:14px}
+@media(max-width:900px){.brand .bn{font-size:1.4rem}.hero .plogo{width:min(240px,70%);margin-bottom:22px}}
