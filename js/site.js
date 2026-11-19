@@ -67,7 +67,7 @@ if(bf){var dt=$('#dt');if(dt){var t=new Date();dt.min=t.toISOString().slice(0,10
   if(!w){try{location.href=url}catch(x){}}})}
 // vcard
 var vc=$('#vcard');
-if(vc)vc.addEventListener('click',function(){var v='BEGIN:VCARD\nVERSION:3.0\nFN:Ar. Amit Khandelwal\nORG:Arch Point Consultants Pvt. Ltd.\nTITLE:Founder & CMD\nTEL;TYPE=CELL:+919982507555\nEMAIL:connect@archpointgp.com\nURL:https://archpoint.in\nADR;TYPE=WORK:;;Plot No. 92/64, Patel Marg, Sector 9, Mansarovar;Jaipur;Rajasthan;302020;India\nEND:VCARD';
+if(vc)vc.addEventListener('click',function(){var v='BEGIN:VCARD\nVERSION:3.0\nFN:Ar. Amit Khandelwal\nORG:Arch Point Group\nTITLE:Founder & CMD\nTEL;TYPE=CELL:+919982507555\nEMAIL:connect@archpointgp.com\nURL:https://archpoint.in\nADR;TYPE=WORK:;;Plot No. 92/64, Patel Marg, Sector 9, Mansarovar;Jaipur;Rajasthan;302020;India\nEND:VCARD';
  var b=new Blob([v],{type:'text/vcard'}),a=d.createElement('a');a.href=URL.createObjectURL(b);a.download='Ar-Amit-Khandelwal.vcf';d.body.appendChild(a);a.click();a.remove()});
 })();
 (function(){var d=document,$=function(s){return d.querySelector(s)};
