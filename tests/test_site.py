@@ -31,7 +31,8 @@ for p in PAGES:
 ph=(ROOT/'projects.html').read_text()
 names=re.findall(r'<div class="pm"><b>([^<]+)</b>',ph)
 ok(len(names)==len(set(names)),'projects: duplicate project cards')
-ok('Baxi' not in ' '.join(names),'projects: Baxi only in featured block')
+ok(names.count('Baxi Ji Residence')==1,'projects: Baxi appears exactly once')
+ok('Featured project' not in ph,'projects: big featured block removed')
 # images referenced by gallery exist as thumb + full
 gh=(ROOT/'gallery.html').read_text()
 for t,f in re.findall(r'src="(assets/img/t/[^"]+)" data-full="([^"]+)"',gh):
