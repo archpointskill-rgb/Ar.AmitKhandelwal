@@ -19,7 +19,7 @@ def page(fn,title,desc,body,extra=''):
 ARR='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 # gallery data: (cat, project, place/type, [(file,label)])
 PR=[
-('residential','Baxi Ji Residence','Residence · Architecture, PMC & Interiors',[('baxi-exterior','Exterior'),('baxi-living','Living room'),('baxi-dining','Dining'),('baxi-foyer','Foyer'),('baxi-bedroom','Master bedroom')]),
+('residential','Baxi Niwas','Residence · Architecture, PMC & Interiors',[('baxi-exterior','Exterior'),('baxi-living','Living room'),('baxi-dining','Dining'),('baxi-foyer','Foyer'),('baxi-bedroom','Master bedroom')]),
 ('residential','Rakesh Ji Residence','Residence',[('rakesh-exterior','Exterior'),('rakesh-interior','Interiors')]),
 ('residential','Sangeeta Ji Residence, Ajmer','Residence · 2025',[('sangeeta-exterior','Exterior'),('sangeeta-living','Living'),('sangeeta-lounge','Lounge'),('sangeeta-bedroom','Bedroom')]),
 ('residential','Godara Ji Residence','Residence · 2025',[('godhara-exterior','Exterior'),('godara-bedroom','Bedroom'),('godara-stair','Staircase'),('godara-dining','Dining'),('godara-pooja','Pooja room'),('godhara-hall','Hall'),('godhara-tv','Living')]),
@@ -30,7 +30,7 @@ PR=[
 ('residential','Vikas Jain Ji Residence','Residence · PMC',[('vikas-exterior','Exterior')]),
 ('residential','High-end Residence','Residence · PMC',[('pmc-exterior','Exterior'),('pmc-living','Living'),('pmc-foyer','Foyer')]),
 ('residential','Jayesh Ji Residence, Dubai','Architecture, PMC & Interiors',[('jayesh-dining','Dining'),('jayesh-living','Living')]),
-('residential','Airbnb, Siddharth Nagar, Jaipur','Hospitality residence',[('airbnb-siddharth','Exterior')]),
+('residential','BnB, Siddharth Nagar, Jaipur','Hospitality residence',[('airbnb-siddharth','Exterior')]),
 ('commercial','YY London','Commercial tower',[('yy-london','Exterior')]),
 ('commercial','Fair Field','Mixed use',[('fairfield','Exterior')]),
 ('commercial','72 Parksyde','High-rise',[('parksyde','Exterior')]),
@@ -55,15 +55,37 @@ PR=[
 ('healthcare','Amar Jain Hospital, Jaipur','Architecture, interiors & PMC',[('amarjain-exterior','Design render'),('amarjain-building','Building'),('amarjain-ward','Ward'),('amarjain-lobby','Reception')]),
 ]
 CATN={'residential':'Residential','commercial':'Commercial & Industrial','hospitality':'Hospitality','civic':'Religious & Civic','institutional':'Institutional','healthcare':'Healthcare'}
+import html as H
+from PIL import Image as _I
+SIG=[('baxi','Baxi Niwas','Baxi Niwas','Residence'),('regenta','Hotel Regenta','Hotel Regenta','Khatu · Hotel'),('dhai','Dhai Dweep','Dhai Dweep','Indore · Religious'),('grassfield','Grassfield Resorts','Grassfield','Delhi Road · Resort'),('todarmal','Todarmal Smarak','Todarmal','Civic landmark'),('bnb','BnB','BnB','Siddharth Nagar, Jaipur')]
+def sigp(key): return [x for x in PR if x[1].startswith(key)][0]
+def imgs_attr(im):
+    for f,l in im: assert ',' not in l and '|' not in l
+    return ','.join(f'{f}|{l}' for f,l in im)
+def vcard(i,name,sub,key,gal=True):
+    c,n,k,im=sigp(key)
+    n_=len(im); cnt=f'{n_} {"photo" if n_==1 else "photos"}'
+    href=f'#{i}' if gal else f'gallery.html#{i}'
+    da=f' data-t="{H.escape(name)}" data-imgs="{imgs_attr(im)}"' if gal else ''
+    return f'<a class="vc rv" id="{i}" href="{href}"{da}><span class="ph"><img src="assets/img/t/{im[0][0]}.jpg" alt="{H.escape(name)}" loading="lazy" decoding="async"><em>{cnt}</em></span><span class="vm"><b>{name}</b><small>{sub}</small></span></a>'.replace(f' id="{i}"',f' id="{i}"' if gal else '')
+def slides(lst):
+    o=''
+    for f,t,k in lst:
+        w,h=_I.open(f'/home/claude/amit-site/assets/img/{f}.jpg').size
+        r=max(.7,min(1.6,w/h))
+        o+=f'<figure class="cs" style="--r:{r:.3f}" data-t="{H.escape(t)}" data-k="{H.escape(k)}" tabindex="0"><img src="assets/img/t/{f}.jpg" data-full="assets/img/{f}.jpg" alt="{H.escape(t)}" loading="lazy" decoding="async"><figcaption><b>{H.escape(t)}</b><span>{H.escape(k)}</span></figcaption></figure>'
+    return o
+def car(lst):
+    return f'<div class="car"><div class="strip">{slides(lst)}</div><button class="cb cp" type="button" aria-label="Previous">&lsaquo;</button><button class="cb cn" type="button" aria-label="Next">&rsaquo;</button></div>'
 def gi(f,t,k,c,x=''):
     return f'<figure class="gi rv{x}" data-c="{c}" data-t="{t}" data-k="{k}"><div class="ph"><img src="assets/img/t/{f}.jpg" data-full="assets/img/{f}.jpg" alt="{t}" loading="lazy" decoding="async"></div><figcaption><b>{t}</b><span>{k}</span></figcaption></figure>'
 def cards(cat):
     o=''
     for c,n,k,im in PR:
         if c!=cat: continue
-        o+=f'<a class="pk rv" href="gallery.html#{"baxi" if n.startswith("Baxi") else c}"><div class="ph"><img src="assets/img/t/{im[0][0]}.jpg" alt="{n}" loading="lazy" decoding="async"><em>{len(im)} {"photo" if len(im)==1 else "photos"}</em></div><div class="pm"><b>{n}</b><span>{k}</span></div></a>'
+        o+=f'<a class="pk rv" href="#" data-t="{H.escape(n)}" data-imgs="{imgs_attr(im)}"><div class="ph"><img src="assets/img/t/{im[0][0]}.jpg" alt="{H.escape(n)}" loading="lazy" decoding="async"><em>{len(im)} {"photo" if len(im)==1 else "photos"}</em></div><div class="pm"><b>{n}</b><span>{k}</span></div></a>'
     return o
-CTA='''<section><div class="wrap"><div class="ctab rv"><h2>Let's build something <mark class="hl full" style="color:#0C1B33">worth keeping</mark>.</h2><p>Share your plot, your idea or your questions. Book a conversation with me in under a minute.</p><a class="btn" href="contact.html">Book appointment on WhatsApp '''+ARR+'''</a><p class="soc"><a href="https://archpoint.in" target="_blank" rel="noopener">archpoint.in</a><span>&middot;</span><a href="https://instagram.com/archpoint_architecture" target="_blank" rel="noopener">@archpoint_architecture</a></p></div></div></section>'''
+CTA='''<section><div class="wrap"><div class="ctab rv"><h2>Let's build something <mark class="hl full" style="color:#0C1B33">worth keeping</mark>.</h2><p>Share your plot, your idea or your questions. Book a conversation with Ar. Khandelwal in under a minute.</p><a class="btn" href="contact.html">Book appointment on WhatsApp '''+ARR+'''</a><p class="soc"><a href="https://archpoint.in" target="_blank" rel="noopener">archpoint.in</a><span>&middot;</span><a href="https://instagram.com/archpoint_architecture" target="_blank" rel="noopener">@archpoint_architecture</a></p></div></div></section>'''
 TEST=[('Parth Saini', 'Home Owner', '4.9', 'One of the best architects in Jaipur! Excellent services, professional approach, and very friendly nature. The house plan and commercials were explained in detail, which made everything clear and smooth.', 'Residential project, Mansarovar'), ('SP Bharill', 'Hospital Administrator', '4.8', 'Arch Point Consultants has done an excellent job in completing the Amar Jain Hospital project with architectural, interior, and PMC services, ensuring everything was delivered with precision and professionalism.', 'Amar Jain Hospital, Jaipur'), ('Riddhi Kapoor', 'Client', '4.7', 'The team was an absolute delight to work with! Their professionalism, creativity, and collaborative approach made the entire experience seamless.', 'Design consultation, Jaipur'), ('Gopal Sharma', 'Flat Owner', '4.9', 'Completed the interiors of our Seven Heaven flat so beautifully. The design, finishing, and attention to detail have truly exceeded our expectations.', 'Seven Heaven Flats, Mansarovar'), ('Anurag Aman', 'Client', '4.6', 'An amazing choice for your dream construction. A hardworking team which delivers on time and has an aesthetic sense to design your building.', 'Residence interior, Jaipur'), ('Vivek Kalra', 'Home Owner', '4.8', 'Right from the first discussion till the final handover, the team was approachable and clear in their process. They balanced creativity with practicality.', 'Residential design, Jaipur'), ('Hetansh Sheth', 'Client', '4.7', "Professional approach and creative solutions, listens to the client's demands and gives an appropriate design.", 'Design consultation, Jaipur')]
 def tcards(items):
     return ''.join(f'<article class="tc rv"><div class="st">&#9733; {r}</div><p>&ldquo;{q}&rdquo;</p><b>{n}</b><span>{role} &middot; {pj}</span></article>' for n,role,r,q,pj in items)
@@ -72,24 +94,21 @@ home=f'''<section class="hero"><div class="wrap"><div>
 <img class="plogo hl1" src="{PLOGO}" alt="Arch Point Consultants Pvt. Ltd. - Your dream is our mission">
 <div class="eyebrow">Founder &amp; CMD &middot; Arch Point Group</div>
 <h1><span data-letters>Ar. Amit</span><span class="n2" data-letters>Khandelwal</span></h1>
-<p class="role">ARCHITECT <span>/</span> PMC LEADER <span>/</span> AUTHOR</p>
-<p class="tagline">Quantum Architect. Where <mark class="hl">design</mark> meets <mark class="hl b">purpose</mark>.</p>
-<div class="cta"><a class="btn" href="contact.html">Book appointment {ARR}</a><a class="btn ghost" href="projects.html">View projects</a></div><ul class="trust"><li>ISO recognised</li><li>Startup India</li><li>Quantum Architecture</li></ul></div>
+<p class="role">ARCHITECT <span>|</span> ENTREPRENEUR <span>|</span> AUTHOR</p>
+<p class="tagline">Where <mark class="hl">design</mark> meets <mark class="hl b">purpose</mark>.</p>
+<div class="cta"><a class="btn" href="contact.html">Book appointment {ARR}</a><a class="btn ghost" href="projects.html">View projects</a></div><ul class="trust"><li>ISO recognised</li><li>Startup India</li><li>Vastu &amp; energy aligned</li></ul></div>
 <div class="portrait"><div class="arch"><div class="mono">AK</div><img src="assets/amit-2026.jpg" alt="Ar. Amit Khandelwal" fetchpriority="high" decoding="async"></div>
 <div class="plate"><b>Ar. Amit Khandelwal</b><span>Founder &amp; CMD &middot; Arch Point Group</span></div></div></div><div class="blob b1"></div><div class="blob b2"></div><svg class="orbit" viewBox="0 0 200 200"><circle cx="100" cy="100" r="96"/><circle cx="100" cy="100" r="70"/></svg><div id="elev"></div></section>
 <div class="ticker"><div><span>Architecture</span><span>Interior Design</span><span>Project Management</span><span>Real Estate</span><span>Wellness</span><span>Technology</span><span>Architecture</span><span>Interior Design</span><span>Project Management</span><span>Real Estate</span><span>Wellness</span><span>Technology</span></div></div>
 <section><div class="wrap"><div class="numbers"><div><b data-n="27">0</b><small>Years of experience</small></div><div><b data-n="500">0</b><small>Projects delivered</small></div><div><b data-n="10">0</b><small>Locations across the globe</small></div><div><b data-n="100">0</b><small>Team members</small></div></div></div></section>
 <section style="padding-top:20px"><div class="wrap split"><div class="imgrv rv" style="aspect-ratio:4/5"><img src="assets/img/sangeeta-exterior.jpg" alt="Sangeeta Ji Residence, Ajmer" loading="lazy" decoding="async"></div>
-<div class="rv d1"><div class="eyebrow">The philosophy</div><p class="bigq">Buildings should do more than <mark class="hl">stand</mark>. They should hold <mark class="hl b">families</mark>, <mark class="hl o">businesses</mark> and futures.</p><p class="lead" style="margin:24px 0">We began as a two-person team with a paper attendance register; today we are a studio of 100+ professionals. Together with Ar. Poonam Jain, I built Arch Point on one belief: accuracy in the plan and perfection in the detail.</p><a class="btn ghost" href="about.html">Read my story {ARR}</a></div></div></section>
+<div class="rv d1"><div class="eyebrow">The philosophy</div><p class="bigq">Buildings should do more than <mark class="hl">stand</mark>. They should hold <mark class="hl b">families</mark>, <mark class="hl o">businesses</mark> and futures.</p><p class="lead" style="margin:24px 0">Ar. Amit Khandelwal and Ar. Poonam Jain built Arch Point on one belief: accuracy in the plan and perfection in the detail. What began as a two-person team with a paper attendance register is today a studio of 100+ professionals.</p><a class="btn ghost" href="about.html">The Arch Point story {ARR}</a></div></div></section>
 <div class="band"><div><span class="outline">Design</span><span>is our love</span><span class="outline">Design</span><span>is our love</span><span class="outline">Design</span><span>is our love</span><span class="outline">Design</span><span>is our love</span></div></div>
-<section><div class="wrap"><div class="eyebrow">Selected work</div><h2 class="rv">Projects that <mark class="hl">speak</mark> for us</h2><div class="pgrid" style="margin-top:44px">
-<div class="pc big rv" data-go="projects.html"><div class="imgrv" style="height:auto"><img src="assets/img/baxi-living.jpg" alt="Baxi Ji Residence" loading="lazy" decoding="async" style="object-position:center 60%"></div><div class="meta"><div><span class="tag">Featured &middot; Residential</span><h3>Baxi Ji Residence</h3></div><span class="arrow">{ARR}</span></div></div>
-<div class="pc rv" data-go="gallery.html#hospitality"><div class="imgrv"><img src="assets/img/t/grassfield-pool.jpg" alt="Grassfield Resorts" loading="lazy" decoding="async"></div><div class="meta"><div><span class="tag">Hospitality</span><h3>Grassfield Resorts</h3></div><span class="arrow">{ARR}</span></div></div>
-<div class="pc rv d1" data-go="gallery.html#civic"><div class="imgrv"><img src="assets/img/t/todarmal-render.jpg" alt="Todarmal Smarak" loading="lazy" decoding="async"></div><div class="meta"><div><span class="tag">Civic &middot; Landmark</span><h3>Todarmal Smarak</h3></div><span class="arrow">{ARR}</span></div></div></div>
-<div style="text-align:center;margin-top:40px"><a class="btn" href="projects.html">All projects {ARR}</a> <a class="btn ghost" href="gallery.html">Open gallery</a></div></div></section>
+<section><div class="wrap"><div class="eyebrow">Selected work</div><h2 class="rv">Projects that <mark class="hl">speak</mark> for us</h2><div class="vstrip" style="margin-top:34px">{''.join(vcard(i,n,sb,k,False) for i,n,k,sb in SIG[:5])}</div>
+<div style="text-align:center;margin-top:30px"><a class="btn" href="projects.html">All projects {ARR}</a> <a class="btn ghost" href="gallery.html">Open gallery</a></div></div></section>
 <section><div class="wrap"><div class="eyebrow">Showreel</div><h2 class="rv">Our work, <mark class="hl o">in motion</mark></h2><div class="reel rv" id="reel"><img src="assets/showreel-poster.jpg" alt="Arch Point showreel: architecture, interiors and PMC" loading="lazy" decoding="async"><button class="rp" type="button" aria-label="Play showreel"><svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div></div></section>
 <section class="dots"><div class="wrap"><div class="eyebrow">How we work</div><h2 class="rv">Four <mark class="hl o">pillars</mark>, one promise</h2><div class="bento">
-<div class="bx a spot rv"><svg class="conc" viewBox="0 0 200 200"><circle cx="100" cy="100" r="30"/><circle cx="100" cy="100" r="55"/><circle cx="100" cy="100" r="80"/><circle cx="100" cy="100" r="98"/></svg><span class="no">01</span><h3>Quantum Architecture</h3><p>I bring together science, Vastu, energy alignment and design innovation, so that your space performs well beyond aesthetics.</p></div>
+<div class="bx a spot rv"><svg class="conc" viewBox="0 0 200 200"><circle cx="100" cy="100" r="30"/><circle cx="100" cy="100" r="55"/><circle cx="100" cy="100" r="80"/><circle cx="100" cy="100" r="98"/></svg><span class="no">01</span><h3>Vertical energy design</h3><p>Science, Vastu, energy alignment and design innovation come together, so that your space performs well beyond aesthetics.</p></div>
 <div class="bx spot rv d1"><span class="no">02</span><h3>Accuracy is our goal</h3><p>Over 500 projects delivered by listening before we draw.</p></div>
 <div class="bx y spot rv d2"><span class="no">03</span><h3>Expert team</h3><p>A studio of 100+ architects, designers and PMC specialists.</p></div>
 <div class="bx img rv d1"><img src="assets/img/pushkar-main.jpg" alt="Pushkar Resort" loading="lazy" decoding="async" style="object-position:center 40%"><div class="cap"><span class="no">04</span><h3>Design is our love</h3><p>From concept to completion, delivered with passion.</p></div></div></div></div></section>
@@ -108,14 +127,14 @@ tl=[('The beginning','Home Aura Arch Point','We started as a two-person studio w
 ('2010','Arch Point Consultants Pvt. Ltd. incorporated','The practice became APCL, covering architecture, interior design and project management consultancy.'),
 ('Growth years','500+ projects, 100+ team','As the studio grew, we adopted HRMS software to manage a team of 100+ across projects.'),
 ('Expansion','Wellness &amp; Technology','Arch Point Wellness (EKASA) and Arch Point Technologies took the group into wellbeing, software and AI.'),
-('Today','Quantum Architect','I lead Arch Point while speaking, writing and collaborating across design, real estate and wellness.')]
+('Today','Architect, Entrepreneur &amp; Author','Ar. Khandelwal leads Arch Point across design, real estate and wellness, while speaking, writing and collaborating.')]
 STEPS=[('Research & Analysis','In-depth research into your needs and the site conditions.'),('Conceptual Design','Innovative ideas, developed with a scientific and artistic approach.'),('Design Development','Detailed planning that respects social, economic and cultural considerations.'),('Project Execution','High-quality design and Vastu solutions, executed with care.'),('Client Satisfaction','A clear presentation, so that you can see your dream as it will be built.')]
 VALS=[('A','uthentic'),('R','esponsible'),('C','onfident'),('H','onest'),('P','assionate'),('O','ptimistic'),('I','mpressive'),('N','oble'),('T','rustworthy')]
 SECT=['Residential','Commercial','Resorts & Hotels','Auditoriums','Sports Complexes','Townships','Religious Projects','Hospitals','Institutional','Interiors & PMC']
-about=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">About</div><h1>Designing with <mark class="hl">accuracy</mark>,<br>leading with <mark class="hl b">heart</mark>.</h1><p class="lead">I am Ar. Amit Khandelwal, Founder &amp; CMD of Arch Point Group, an award-winning Jaipur practice that I founded with Ar. Poonam Jain. For over 27 years, we have worked across architecture, interior design and PMC.</p></div></section>
-<section style="padding-top:0"><div class="wrap split"><div class="portrait" style="margin:0"><div class="arch"><div class="mono">AK</div><img src="assets/amit-2026.jpg" alt="Ar. Amit Khandelwal"></div></div>
-<div class="rv"><p class="bigq">I call myself a <mark class="hl">Quantum Architect</mark>. I blend science, Vastu, energy alignment and design innovation, so that spaces perform far beyond aesthetics.</p><p class="lead" style="margin-top:22px">Under my leadership, APCL has grown from two people to a team of 100+, delivering 500+ projects across 10+ locations around the globe in the residential, commercial, hospitality, institutional and civic sectors. I am also an author and creative collaborator.</p></div></div></section>
-<section style="background:#fff;border-block:1px solid var(--line)"><div class="wrap"><div class="eyebrow">The journey</div><h2 class="rv" style="margin-bottom:50px">From a paper register to a <mark class="hl o">100+ strong</mark> studio</h2><div class="tlw"><div class="tl"><div class="fill"></div>{''.join(f'<article class="rv"><div class="yr">{a}</div><h3>{b}</h3><p>{c}</p></article>' for a,b,c in tl)}</div><aside class="side rv"><svg class="conc" viewBox="0 0 200 200"><circle cx="100" cy="100" r="40"/><circle cx="100" cy="100" r="70"/><circle cx="100" cy="100" r="98"/></svg><div class="eyebrow" style="color:var(--yellow)">Quantum Architecture</div><p class="bigq">Where science, Vastu and energy alignment meet design.</p><ul><li>Science and technical mastery</li><li>Vastu and energy alignment</li><li>Value-driven, future-ready design</li></ul><div class="cr">Your dream is our mission, accuracy is our goal, perfection is our attitude.</div></aside></div></div></section>
+about=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">About</div><h1>Designing with <mark class="hl">accuracy</mark>,<br>leading with <mark class="hl b">heart</mark>.</h1><p class="lead">Ar. Amit Khandelwal is Founder &amp; CMD of Arch Point Group, an award-winning Jaipur practice founded with Ar. Poonam Jain. For over 27 years, the group has shaped architecture, interior design and PMC across 10+ locations worldwide.</p></div></section>
+<section style="padding-top:0"><div class="wrap split abt"><div class="portrait" style="margin:0"><div class="arch"><div class="mono">AK</div><img src="assets/amit-2026.jpg" alt="Ar. Amit Khandelwal"></div></div>
+<div class="rv"><p class="bigq">The relationship between <mark class="hl">vertical energy</mark> and the built form decides how a space feels, performs and lasts.</p><p class="lead" style="margin-top:20px">Arch Point designs for that relationship, bringing science, Vastu and energy alignment together with design innovation. Under the leadership of Ar. Khandelwal, the practice has grown from two people to a team of 100+, delivering 500+ projects across the residential, commercial, hospitality, institutional and civic sectors. As an architect, entrepreneur and author, he leads the group towards value-driven, future-ready design.</p></div></div></section>
+<section style="background:#fff;border-block:1px solid var(--line)"><div class="wrap"><div class="eyebrow">The journey</div><h2 class="rv" style="margin-bottom:50px">From a paper register to a <mark class="hl o">100+ strong</mark> studio</h2><div class="tlw"><div class="tl"><div class="fill"></div>{''.join(f'<article class="rv"><div class="yr">{a}</div><h3>{b}</h3><p>{c}</p></article>' for a,b,c in tl)}</div><aside class="side rv"><svg class="conc" viewBox="0 0 200 200"><circle cx="100" cy="100" r="40"/><circle cx="100" cy="100" r="70"/><circle cx="100" cy="100" r="98"/></svg><div class="eyebrow" style="color:var(--yellow)">Vertical energy</div><p class="bigq">Where science, Vastu and energy alignment meet design.</p><ul><li>Science and technical mastery</li><li>Vastu and energy alignment</li><li>Value-driven, future-ready design</li></ul><div class="cr">Your dream is our mission, accuracy is our goal, perfection is our attitude.</div></aside></div></div></section>
 <section><div class="wrap"><div class="eyebrow">The group</div><h2 class="rv">Three firms, <mark class="hl">one</mark> vision</h2><div class="firms">
 <a href="https://www.archpoint.in" target="_blank" rel="noopener" class="firm rv"><div class="fl"><img src="assets/img/logo-primary.png" alt="Arch Point Consultants Pvt. Ltd."></div><h3>Arch Point Consultants</h3><span class="tag">Architecture &middot; Interiors &middot; PMC</span><p>Our founding practice, offering architecture, interior design and project management consultancy for homes, commercial spaces, hospitality and institutions. A team of 100+ has delivered 500+ projects.</p></a>
 <a href="https://www.ekasa.in" target="_blank" rel="noopener" class="firm rv d1"><div class="fl"><img src="assets/img/logo-apw.png" alt="Arch Point Wellness Pvt. Ltd."></div><h3>Arch Point Wellness</h3><span class="tag">EKASA &middot; Wellbeing</span><p>Our wellness arm and the home of the EKASA brand. It brings design thinking to spaces, programmes and experiences that support mind, body and balanced living.</p></a>
@@ -131,12 +150,9 @@ about=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">About
 <div><span class="d">Govt</span><div><h3>Startup recognition</h3><p>Recognised as a startup by the Government of India.</p></div></div>
 <div><span class="d">Pod</span><div><h3>Skyline Sessions: Rajasthan</h3><p>Podcast with Pentaspace Design Studio.</p></div></div></div></div></section>
 <section id="voices"><div class="wrap"><div class="eyebrow">Client voices</div><h2 class="rv">What our clients <mark class="hl">say</mark></h2><div class="tgrid" style="margin-top:40px">{tcards(TEST)}</div></div></section>
-<section style="background:#fff;border-block:1px solid var(--line)"><div class="wrap"><div class="eyebrow">Recognition</div><h2 class="rv">Awards that <mark class="hl">honour</mark> the work</h2>
-<div class="recg"><figure class="rv"><div class="ph tall"><img src="assets/img/award-2025.jpg" alt="Architecture & Interior Design Excellence Awards 2025" loading="lazy" decoding="async"></div><figcaption><b>Excellence Awards 2025</b><span>Architecture &amp; Interior Design</span></figcaption></figure>
-<figure class="rv d1"><div class="ph tall"><img src="assets/img/awards-asia.jpg" alt="Asia's Leadership Awards" loading="lazy" decoding="async"></div><figcaption><b>Asia's Leadership Awards</b><span>Trophies &amp; moments</span></figcaption></figure></div></div></section>
-<section><div class="wrap"><div class="eyebrow">The team</div><h2 class="rv">One studio, <mark class="hl b">100+ people</mark></h2><figure class="teamf rv"><div class="ph"><img src="assets/img/team.jpg" alt="The Arch Point team" loading="lazy" decoding="async"></div><figcaption><b>The Arch Point family</b><span>Designers, engineers and PMC specialists</span></figcaption></figure></div></section>
 {CTA}'''
 page('about.html','About | Ar. Amit Khandelwal','The story of Ar. Amit Khandelwal and Arch Point Consultants Pvt. Ltd.: from Home Aura Arch Point to a 100+ member studio.',about)
+LB='<div class="lb"><button class="x" aria-label="Close">&times;</button><button class="pv" aria-label="Previous">&lsaquo;</button><img alt=""><p></p><button class="nx" aria-label="Next">&rsaquo;</button></div>'
 # ---------- PROJECTS
 also=['JLN Auditorium','Kapish Tower','Navjeevan Science College','Udaipur Ashram','Varuna MUF Warehousing','JCB Workshop','Celebi','Aksh Optifibre','Siscol','Delhi Institutional Campus','Pentaspace collaborations']
 bx=[f for f in PR[0][3]]
@@ -144,27 +160,29 @@ feat=f'''<section style="padding-top:0"><div class="wrap"><div class="eyebrow">F
 <div class="feat">{''.join(f'<figure class="rv{" fa" if i==0 else ""}"><div class="ph"><img src="assets/img/{"" if i==0 else "t/"}{f}.jpg" alt="Baxi Ji Residence, {l}" loading="lazy" decoding="async"></div><figcaption><b>Baxi Ji Residence</b><span>{l}</span></figcaption></figure>' for i,(f,l) in enumerate(bx))}</div>
 <div style="margin-top:34px"><a class="btn" href="gallery.html#baxi">See all in the gallery {ARR}</a></div></div></section'''
 secs=''.join(f'<section style="padding-top:0"><div class="wrap"><div class="chead rv"><h2>{CATN[c]}</h2><span>{sum(1 for p in PR if p[0]==c)} projects</span></div><div class="pkg">{cards(c)}</div></div></section>' for c in CATN)
-proj=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">Projects</div><h1>Spaces we have <mark class="hl">brought to life</mark></h1><p class="lead">A selection of our residential, commercial, hospitality, religious and institutional work across India. Visit the gallery to see every image.</p></div></section>
+proj=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">Projects</div><h1>Spaces we have <mark class="hl">brought to life</mark></h1><p class="lead">A selection of our residential, commercial, hospitality, religious and institutional work across India. Tap any project to view its photos.</p></div></section>
 {secs}
 <section style="background:#fff;border-block:1px solid var(--line)"><div class="wrap"><div class="eyebrow">Also delivered</div><h2 class="rv">Many more, <mark class="hl o">across India</mark></h2><div style="margin-top:30px" class="rv">{''.join(f'<span class="pill">{a}</span>' for a in also)}</div></div></section>
 {CTA}'''
-page('projects.html','Projects | Ar. Amit Khandelwal','Selected projects by Arch Point Consultants: civic, commercial, hospitality and residential architecture and interiors.',proj)
+page('projects.html','Projects | Ar. Amit Khandelwal','Selected projects by Arch Point Consultants: civic, commercial, hospitality and residential architecture and interiors.',proj,LB)
 # ---------- GALLERY
-items=[(c,n,l,f,k) for c,n,k,im in PR for f,l in im]
-BAXI=[x for x in items if x[1]=='Baxi Ji Residence']
-rest=[x for x in items if x[1]!='Baxi Ji Residence']
-def gfig(x,extra=''):
-    c,n,l,f,k=x
-    return gi(f,n,l+' · '+k.split(' · ')[0] if False else l,('baxi ' if n.startswith('Baxi') else '')+c,extra)
-fl=''.join(f'<button data-f="{c}">{CATN[c]}</button>' for c in CATN)
-gal=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">Gallery</div><h1>The work, <mark class="hl b">in frames</mark></h1><p class="lead">{len(items)} images from our outstanding projects, each named under its frame. Tap any image to view it large.</p>
-<div class="filters"><button class="on" data-f="all">All</button><button data-f="baxi">Baxi Ji Residence</button>{fl}</div></div></section>
-<section style="padding-top:0"><div class="wrap"><div class="gfeat">{''.join(gfig(x,' gf' if i==0 else '') for i,x in enumerate(BAXI))}</div><div class="masonry" id="gall">{''.join(gfig(x) for x in rest)}</div></div></section>
+nsig=sum(len(sigp(k)[3]) for _,_,k,_ in SIG)
+TEAM=[('team','The Arch Point family','Designers, engineers and PMC specialists'),('team-celebration','Celebrating together','Arch Point team')]
+EVT=[('ev-women-foundation','Women Foundation event','Arch Point events'),('ev-wellness-day','Wellness Day','Arch Point events'),('ev-guest-book','Guest book signing','Distinguished guest'),('ev-guest-portrait','With a distinguished guest','Arch Point events'),('ev-guest-ekasa','Felicitating a guest','At EKASA')]
+ACH=[('award-2025','Excellence Awards 2025','Architecture & Interior Design'),('awards-asia',"Asia's Leadership Awards",'Trophies & moments')]
+gal=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">Gallery</div><h1>The work, <mark class="hl b">in frames</mark></h1><p class="lead">Signature projects, our team, events and achievements. Tap any card to view it large.</p>
+<div class="filters tabs" role="tablist"><button class="on" data-tab="projects" type="button">Signature projects</button><button data-tab="team" type="button">Team</button><button data-tab="events" type="button">Events</button><button data-tab="achievements" type="button">Achievements</button></div></div></section>
+<section style="padding-top:0"><div class="wrap">
+<div class="gp" data-p="projects"><div class="vgrid">{''.join(vcard(i,n,sb,k) for i,n,k,sb in SIG)}</div></div>
+<div class="gp" data-p="team"><p class="gnote">The people behind every project.</p>{car(TEAM)}</div>
+<div class="gp" data-p="events"><p class="gnote">Celebrations, wellness days and distinguished guests.</p>{car(EVT)}</div>
+<div class="gp" data-p="achievements"><p class="gnote">Awards and recognition that honour the work.</p>{car(ACH)}</div>
+</div></section>
 {CTA}'''
 lb='<div class="lb"><button class="x" aria-label="Close">&times;</button><button class="pv" aria-label="Previous">&lsaquo;</button><img alt=""><p></p><button class="nx" aria-label="Next">&rsaquo;</button></div>'
-page('gallery.html','Gallery | Ar. Amit Khandelwal','Photo gallery of outstanding projects by Arch Point Consultants.',gal,lb)
+page('gallery.html','Gallery | Ar. Amit Khandelwal','Signature projects, team, events and achievements of Arch Point Group.',gal,lb)
 # ---------- CONTACT
-contact=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">Contact</div><h1>Book an <mark class="hl">appointment</mark></h1><p class="lead">Share a few details and they will reach me directly on WhatsApp, so that I can confirm your appointment.</p></div></section>
+contact=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">Contact</div><h1>Book an <mark class="hl">appointment</mark></h1><p class="lead">Share a few details and they will reach Ar. Khandelwal directly on WhatsApp, so that your appointment can be confirmed.</p></div></section>
 <section style="padding-top:0"><div class="wrap split cs">
 <form class="form" id="bf" novalidate>
 <div class="f"><label for="nm">Your name</label><input id="nm" autocomplete="name"><span class="err" id="e_nm"></span></div>
