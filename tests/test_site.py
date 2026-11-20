@@ -42,7 +42,7 @@ for grp in re.findall(r'data-imgs="([^"]+)"',gh+ph):
         f=it.split('|')[0];ok((ROOT/f'assets/img/{f}.jpg').exists(),f'group image exists {f}')
 ok(gh.count('class="vc ')==6,'gallery: 6 signature vertical cards')
 for w in ['Baxi Niwas','Hotel Regenta','Dhai Dweep','Grassfield','Todarmal','BnB']: ok(w in gh,f'gallery: signature {w}')
-ok(gh.count('class="cs"')==9,'gallery: 9 carousel slides (team 2, events 5, achievements 2)')
+ok(gh.count('class="cs"')==12,'gallery: 12 carousel slides (team 2, events 5, achievements 5)')
 for p_ in PAGES:
     t=(ROOT/f'{p_}.html').read_text()
     ok('Quantum' not in t and 'Mentor' not in t and 'mentor' not in t,f'{p_}: no Quantum/Mentor wording')

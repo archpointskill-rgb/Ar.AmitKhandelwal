@@ -148,6 +148,12 @@ about=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">About
 <div><span class="d">08/26</span><div><h3>Livingetc India</h3><p>Featured in the August 2026 issue.</p></div></div>
 <div><span class="d">Talk</span><div><h3>ITM Group</h3><p>Invited to speak on architecture and entrepreneurship.</p></div></div>
 <div><span class="d">11/10</span><div><h3>Dholera Investors Meet</h3><p>Hosted in Jaipur on 11 October 2026 with Nestoria Group.</p></div></div>
+<div><span class="d">Award</span><div><h3>Most Promising Architecture Firm</h3><p>Awarded by Big Research.</p></div></div>
+<div><span class="d">Award</span><div><h3>NDTV recognition</h3><p>Awarded by NDTV for a notable project.</p></div></div>
+<div><span class="d">Award</span><div><h3>Auditorium design project</h3><p>Award for an auditorium design project.</p></div></div>
+<div><span class="d">Honour</span><div><h3>Khandelwal Samaj Trust</h3><p>Appreciation from the Khandelwal Samaj Trust.</p></div></div>
+<div><span class="d">Honour</span><div><h3>Todarmal Smarak</h3><p>Appreciation award for the Todarmal Smarak project.</p></div></div>
+<div><span class="d">03/25</span><div><h3>International Women's Day</h3><p>Ar. Poonam Jain felicitated on 8 March 2025 at Global Institute of Technology.</p></div></div>
 <div><span class="d">ISO</span><div><h3>ISO recognition</h3><p>Recognised for our commitment to quality.</p></div></div>
 <div><span class="d">Govt</span><div><h3>Startup recognition</h3><p>Recognised as a startup by the Government of India.</p></div></div>
 <div><span class="d">Pod</span><div><h3>Skyline Sessions: Rajasthan</h3><p>Podcast with Pentaspace Design Studio.</p></div></div></div></div></section>
@@ -171,7 +177,7 @@ page('projects.html','Projects | Ar. Amit Khandelwal','Selected projects by Arch
 nsig=sum(len(sigp(k)[3]) for _,_,k,_ in SIG)
 TEAM=[('team','The Arch Point family','Designers, engineers and PMC specialists'),('team-celebration','Celebrating together','Arch Point team')]
 EVT=[('ev-women-foundation','Women Foundation event','Arch Point events'),('ev-wellness-day','Wellness Day','Arch Point events'),('ev-guest-book','Guest book signing','Distinguished guest'),('ev-guest-portrait','With a distinguished guest','Arch Point events'),('ev-guest-ekasa','Felicitating a guest','At EKASA')]
-ACH=[('award-2025','Excellence Awards 2025','Architecture & Interior Design'),('awards-asia',"Asia's Leadership Awards",'Trophies & moments')]
+ACH=[('ach-womens-day-stage',"International Women's Day, 8 March 2025",'Ar. Poonam Jain felicitated'),('ach-womens-day-felicitation','Felicitation ceremony','Global Institute of Technology'),('ach-womens-day-poster','Honouring women achievers','8 March 2025'),('award-2025','Excellence Awards 2025','Architecture & Interior Design'),('awards-asia',"Asia's Leadership Awards",'Trophies & moments')]
 gal=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">Gallery</div><h1>The work, <mark class="hl b">in frames</mark></h1><p class="lead">Signature projects, our team, events and achievements. Tap any card to view it large.</p>
 <div class="filters tabs" role="tablist"><button class="on" data-tab="projects" type="button">Signature projects</button><button data-tab="team" type="button">Team</button><button data-tab="events" type="button">Events</button><button data-tab="achievements" type="button">Achievements</button></div></div></section>
 <section style="padding-top:0"><div class="wrap">
