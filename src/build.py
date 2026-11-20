@@ -13,8 +13,10 @@ FOOT=f'''<div class="wmw"><div class="wm"><span>Design is our love</span><span>D
 <div><h4>Connect</h4><a href="mailto:connect@archpointgp.com">connect@archpointgp.com</a><a href="tel:+919982507555">+91 99825 07555</a><a href="https://instagram.com/archpoint_architecture" target="_blank" rel="noopener">@archpoint_architecture</a><a href="https://archpoint.in" target="_blank" rel="noopener">archpoint.in</a><a href="https://www.linkedin.com/company/14409093" target="_blank" rel="noopener">LinkedIn</a><a href="https://www.facebook.com/teamarchpoint/" target="_blank" rel="noopener">Facebook</a><a>Plot No. 92/64, Patel Marg, Sector 9, Mansarovar, Jaipur</a></div>
 <div class="cp"><span>&copy; 2026 Arch Point Consultants Pvt. Ltd.</span><span>Designed with love in Jaipur</span></div></div></footer>
 <a class="fab" href="contact.html" aria-label="Book on WhatsApp">{WAI}</a>'''
+import hashlib
+def _v(f): return hashlib.md5(open('/home/claude/amit-site/'+f,'rb').read()).hexdigest()[:8]
 def page(fn,title,desc,body,extra=''):
-    html=f'''<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title}</title><meta name="description" content="{desc}"><meta name="color-scheme" content="light">{FONTS}<link rel="icon" href="{LOGO}"><link rel="stylesheet" href="css/site.css"></head><body>{nav(fn)}<main>{body}</main>{FOOT}{extra}<script src="js/site.js"></script></body></html>'''
+    html=f'''<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title}</title><meta name="description" content="{desc}"><meta name="color-scheme" content="light">{FONTS}<link rel="icon" href="{LOGO}"><link rel="stylesheet" href="css/site.css?v={_v("css/site.css")}"></head><body>{nav(fn)}<main>{body}</main>{FOOT}{extra}<script src="js/site.js?v={_v("js/site.js")}"></script></body></html>'''
     open(fn,'w').write(html)
 ARR='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 # gallery data: (cat, project, place/type, [(file,label)])
