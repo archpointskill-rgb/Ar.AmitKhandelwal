@@ -78,6 +78,12 @@ def vcard(i,name,sub,key,gal=True,feat=False):
     d='' if feat else 't/'
     cl='vc vfeat rv' if feat else 'vc rv'
     return f'<a class="{cl}" id="{i}" href="{href}"{da}><span class="ph"><img src="assets/img/{d}{im[0][0]}.jpg" alt="{H.escape(name)}" loading="lazy" decoding="async"><em>{cnt}</em></span><span class="vm"><b>{name}</b><small>{sub}</small></span></a>'.replace(f' id="{i}"',f' id="{i}"' if gal else '')
+AREAS='ABCDEFGHI'
+def mtile(j,i,name,sub,key):
+    c,n,k,im=sigp(key); n_=len(im); cnt=f'{n_} photos'
+    big=j in (0,1,7,8)
+    d='' if big else 't/'
+    return f'<a class="vc mt rv d{j%4}" id="{i}" href="#{i}" style="grid-area:{AREAS[j]};--k:{j}" data-t="{H.escape(name)}" data-imgs="{imgs_attr(im)}"><img src="assets/img/{d}{im[0][0]}.jpg" alt="{H.escape(name)}" loading="lazy" decoding="async"><em>{cnt}</em><span class="vm"><b>{name}</b><small>{sub}</small></span></a>'
 def slides(lst,hq=False):
     o=''
     for f,t,k in lst:
@@ -191,10 +197,10 @@ nsig=sum(len(sigp(k)[3]) for _,_,k,_ in SIG)
 TEAM=[('team','The Arch Point family','Designers, engineers and PMC specialists'),('team-celebration','Celebrating together','Arch Point team')]
 EVT=[('ev-women-foundation','Women Foundation event','Arch Point events'),('ev-wellness-day','Wellness Day','Arch Point events'),('ev-guest-book','Guest book signing','Distinguished guest'),('ev-guest-portrait','With a distinguished guest','Arch Point events'),('ev-guest-ekasa','Felicitating a guest','At EKASA')]
 ACH=[('ach-iibl-trophy','Indian Iconic Brands & Leaders Award','IIBL Awards Winner 2024'),('ach-iibl-certificate','IIBL Certificate of Achievement','Most Admired Architecture Company of the Year, Rajasthan'),('ach-national-icon-trophy','National Icon Award 2025','Sustainability · Eminent Research'),('ach-national-icon-certificate','National Icon Awards 2025','Certificate of Achievement'),('ach-pride-of-rajasthan','Pride of Rajasthan Award','The Women Foundation'),('ach-asia-leadership-trophy',"Asia's Leadership Awards 2025",'Winner · 28 February 2025'),('ach-asia-leadership-certificate',"3rd Asia's Leadership Awards 2025",'Certificate of Achievement'),('ach-womens-day-stage',"International Women's Day, 8 March 2025",'Ar. Poonam Jain felicitated'),('ach-womens-day-felicitation','Felicitation ceremony','Global Institute of Technology'),('ach-womens-day-poster','Honouring women achievers','8 March 2025'),('award-2025','Excellence Awards 2025','Architecture & Interior Design'),('awards-asia',"Asia's Leadership Awards",'Trophies & moments')]
-gal=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">Gallery</div><h1>The work, <mark class="hl b">in frames</mark></h1><p class="lead">Signature projects, our team, events and achievements. Tap any card to view it large.</p>
+gal=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">Gallery</div><h1>The work, <mark class="hl b">in frames</mark></h1><p class="lead">A mosaic of the projects, people and moments that define Arch Point. Tap any tile to explore its photos.</p>
 <div class="filters tabs" role="tablist"><button class="on" data-tab="projects" type="button">Signature projects</button><button data-tab="team" type="button">Team</button><button data-tab="events" type="button">Events</button><button data-tab="achievements" type="button">Achievements</button></div></div></section>
 <section style="padding-top:0"><div class="wrap">
-<div class="gp" data-p="projects"><div class="vgrid">{''.join(vcard(i,n,sb,k,True,j==0) for j,(i,n,k,sb) in enumerate(SIG))}</div></div>
+<div class="gp" data-p="projects"><div class="mosaic">{''.join(mtile(j,i,n,sb,k) for j,(i,n,k,sb) in enumerate(SIG))}</div></div>
 <div class="gp" data-p="team"><p class="gnote">The people behind every project.</p>{car(TEAM)}</div>
 <div class="gp" data-p="events"><p class="gnote">Celebrations, wellness days and distinguished guests.</p>{car(EVT)}</div>
 <div class="gp" data-p="achievements"><p class="gnote">Awards and recognition that honour the work.</p>{car(ACH)}</div>

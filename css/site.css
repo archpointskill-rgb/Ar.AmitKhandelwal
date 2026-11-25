@@ -510,3 +510,21 @@ h2 mark.hl{background-size:100% 46%}
  .fab{width:46px;height:46px;right:12px;bottom:14px}
  .role{font-size:.8rem;letter-spacing:.02em}
 }
+
+/* gallery mosaic (pinterest-style, no gaps) */
+.mosaic{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:clamp(150px,17vw,230px);gap:16px;grid-template-areas:"A A B B" "A A C D" "E F C G" "E H H G" "I I I I"}
+.mosaic .vc.mt{position:relative;display:block;overflow:hidden;border-radius:22px;background:var(--navy);box-shadow:0 14px 34px rgba(11,33,71,.16);isolation:isolate;transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s}
+.mosaic .mt img{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;object-fit:cover;animation:kb 22s ease-in-out infinite alternate;animation-delay:calc(var(--k)*-3s);transition:filter .5s}
+@keyframes kb{from{transform:scale(1) translate(0,0)}to{transform:scale(1.1) translate(-1.5%,-1%)}}
+.mosaic .mt:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(11,33,71,.82),rgba(11,33,71,0) 55%);z-index:1;transition:opacity .5s}
+.mosaic .mt .vm{position:absolute;left:0;right:0;bottom:0;padding:18px 20px;z-index:2;color:#fff;transform:translateY(8px);transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.mosaic .mt .vm b{color:#fff;font-size:clamp(1.05rem,1.7vw,1.6rem)}.mosaic .mt .vm small{color:var(--yellow)}
+.mosaic .mt em{position:absolute;right:14px;top:14px;z-index:2;background:rgba(255,255,255,.92);color:var(--navy);font-style:normal;font-size:.68rem;font-weight:800;letter-spacing:.08em;padding:6px 12px;border-radius:99px;transform:translateY(-6px);opacity:0;transition:.4s}
+.mosaic .mt:hover{transform:translateY(-6px) rotate(-.4deg);box-shadow:0 26px 54px rgba(11,33,71,.28)}
+.mosaic .mt:hover .vm{transform:none}.mosaic .mt:hover em{opacity:1;transform:none}
+.mosaic .mt:hover img{filter:saturate(1.15) brightness(1.05)}
+.mosaic .mt:nth-child(1) .vm b,.mosaic .mt:nth-child(9) .vm b{font-size:clamp(1.4rem,2.6vw,2.4rem)}
+@media(max-width:700px){.mosaic{grid-auto-rows:150px;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:"A A" "B C" "D C" "E F" "G F" "H H" "I I"}.mosaic .mt{border-radius:16px}.mosaic .mt em{opacity:1;transform:none;top:10px;right:10px}.mosaic .mt .vm{padding:12px 14px;transform:none}}
+@media(prefers-reduced-motion:reduce){.mosaic .mt img{animation:none}}
+/* gallery page backdrop pattern */
+body:has(.mosaic){background:radial-gradient(1200px 500px at 90% 0,rgba(244,179,29,.16),transparent 60%),radial-gradient(900px 500px at 0 30%,rgba(27,95,193,.12),transparent 60%),radial-gradient(rgba(11,33,71,.07) 1.2px,transparent 1.2px) 0 0/22px 22px,#F6F9FE}
