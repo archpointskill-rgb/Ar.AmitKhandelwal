@@ -198,11 +198,11 @@ footer .cp{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);padding-t
 .firms{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:40px}
 .firm{background:#fff;border:1px solid var(--line);border-radius:12px;padding:34px;display:block;transition:.4s}
 .firm:hover{transform:translateY(-6px);box-shadow:0 22px 44px rgba(12,27,51,.1);border-color:var(--blue)}
-.firm .fl{height:96px;display:flex;align-items:center;margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--line)}
-.firm .fl img{max-height:84px;max-width:100%;width:auto;object-fit:contain}
+.firm .flogo{height:96px;display:flex;align-items:center;margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.firm .flogo img{max-height:84px;max-width:100%;width:auto;object-fit:contain}
 .firm h3{font-size:1.7rem;margin-bottom:6px}.firm .tag{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);font-weight:800}
 .firm p{color:var(--muted);font-size:.95rem;margin-top:12px}
-.firms.mini .firm{padding:26px}.firms.mini .fl{height:76px}.firms.mini h3{font-size:1.4rem}
+.firms.mini .firm{padding:26px}.firms.mini .flogo{height:76px}.firms.mini h3{font-size:1.4rem}
 .arch:before{display:none}
 .arch img{object-position:center 12%}
 footer img{height:auto;max-height:60px;width:auto}
@@ -496,9 +496,7 @@ footer{background:linear-gradient(180deg,var(--navy),#07152F);border-top:5px sol
 .vfeat{position:relative}.vfeat .vm b{color:#fff;font-size:clamp(1.8rem,4vw,3rem)}.vfeat .vm small{color:var(--yellow)}
 .vgrid .vc:nth-child(n+8) .ph,.vgrid .vc:nth-child(n+8) .ph img{aspect-ratio:3/2}
 /* hero floating project photos */
-.fl{position:absolute;width:128px;aspect-ratio:4/3;object-fit:cover;border:5px solid #fff;border-radius:12px;box-shadow:0 18px 40px rgba(12,27,51,.22);z-index:3;animation:bob 6s ease-in-out infinite}
-.fl.f1{left:-74px;top:10%}.fl.f2{right:-34px;top:2%;animation-delay:-2s;width:112px;aspect-ratio:1}.fl.f3{left:-46px;bottom:20%;animation-delay:-4s;width:110px}
-@media(max-width:900px){.fl.f1{left:-8px;top:2%;width:92px}.fl.f2{right:-4px;top:-2%;width:84px}.fl.f3{left:-6px;bottom:16%;width:84px}.vgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.vgrid .vc,.vgrid .vc:nth-child(n+8){grid-column:span 1}.vgrid .vc.vfeat{grid-column:1/-1}.vfeat .ph,.vfeat .ph img{aspect-ratio:4/3}.vgrid .vc:nth-child(n+8) .ph,.vgrid .vc:nth-child(n+8) .ph img{aspect-ratio:4/5}.vfeat .vm{padding:50px 18px 18px}}
+@media(max-width:900px){.vgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.vgrid .vc,.vgrid .vc:nth-child(n+8){grid-column:span 1}.vgrid .vc.vfeat{grid-column:1/-1}.vfeat .ph,.vfeat .ph img{aspect-ratio:4/3}.vgrid .vc:nth-child(n+8) .ph,.vgrid .vc:nth-child(n+8) .ph img{aspect-ratio:4/5}.vfeat .vm{padding:50px 18px 18px}}
 /* fixes: mobile hero order, fab, colour lift */
 .hero{background:radial-gradient(900px 500px at 88% 8%,rgba(244,179,29,.30),transparent 60%),radial-gradient(800px 520px at 0% 70%,rgba(27,95,193,.16),transparent 60%),linear-gradient(180deg,#EEF4FD,#FFF8EA)}
 .hero h1{font-size:clamp(3rem,7.4vw,6.6rem)}
@@ -573,3 +571,5 @@ body:has(.mosaic){background:radial-gradient(1200px 500px at 90% 0,rgba(244,179,
 @media(prefers-reduced-motion:reduce){.tm{animation:none}}
 .bn>div:after{display:none!important}
 @media(max-width:900px){.glass{position:relative;right:auto;bottom:auto;width:100%;margin-top:14px}}
+
+.info .wp{padding:20px}.info .bub{padding:14px 16px;border:0}.info .wp small{margin-bottom:2px}
