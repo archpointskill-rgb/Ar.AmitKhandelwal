@@ -139,7 +139,7 @@ with sync_playwright() as p:
         pg.evaluate("document.querySelectorAll('.pk')[2].click()");pg.wait_for_timeout(300)
         ok(pg.evaluate("document.querySelector('.lb').classList.contains('open')"),f'{name}: projects card opens lightbox');pg.keyboard.press('Escape')
         pg.goto(B+'index.html');pg.wait_for_timeout(300)
-        ok(pg.evaluate("document.querySelectorAll('.vstrip .vc').length")==4,f'{name}: home shows 4 vertical project cards')
+        ok(pg.evaluate("document.querySelectorAll('.hlsec .cs').length")==4,f'{name}: home highlighted projects carousel has 4 slides')
         # reel lazy
         pg.goto(B+'index.html');pg.wait_for_timeout(300)
         ok(pg.evaluate("document.querySelector('#reel video')")is None,f'{name}: video not loaded until play')
