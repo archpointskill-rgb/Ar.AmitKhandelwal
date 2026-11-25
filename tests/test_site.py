@@ -40,7 +40,7 @@ for t,f in re.findall(r'src="(assets/img/t/[^"]+)" data-full="([^"]+)"',gh):
 for grp in re.findall(r'data-imgs="([^"]+)"',gh+ph):
     for it in grp.split(','):
         f=it.split('|')[0];ok((ROOT/f'assets/img/{f}.jpg').exists(),f'group image exists {f}')
-ok(gh.count('class="vc ')==6,'gallery: 6 signature vertical cards')
+ok(gh.count('class="vc ')==9,'gallery: 9 signature vertical cards')
 for w in ['Baxi Niwas','Hotel Regenta','Dhai Dweep','Grassfield','Todarmal','BnB']: ok(w in gh,f'gallery: signature {w}')
 ok(gh.count('class="cs"')==19,'gallery: 19 carousel slides (team 2, events 5, achievements 12)')
 for p_ in PAGES:
@@ -113,7 +113,7 @@ with sync_playwright() as p:
         ok('Name: '+evil in txt and 'Line2 & more #hash' in txt and 'Mobile: +91 98765 43210' in txt,f'{name}: message encoded correctly')
         # gallery
         pg.goto(B+'gallery.html');pg.wait_for_timeout(400)
-        ok(pg.evaluate("document.querySelectorAll('.vc').length")==6,f'{name}: 6 signature cards')
+        ok(pg.evaluate("document.querySelectorAll('.vc').length")==9,f'{name}: 9 signature cards')
         ok(pg.evaluate("[...document.querySelectorAll('.gp')].filter(p=>!p.hidden).length")==1,f'{name}: one tab panel visible')
         pg.click('.tabs button[data-tab=events]');pg.wait_for_timeout(300)
         ok(pg.evaluate("[...document.querySelectorAll('.gp')].filter(p=>!p.hidden)[0].dataset.p")=='events',f'{name}: events tab opens')
@@ -139,7 +139,7 @@ with sync_playwright() as p:
         pg.evaluate("document.querySelectorAll('.pk')[2].click()");pg.wait_for_timeout(300)
         ok(pg.evaluate("document.querySelector('.lb').classList.contains('open')"),f'{name}: projects card opens lightbox');pg.keyboard.press('Escape')
         pg.goto(B+'index.html');pg.wait_for_timeout(300)
-        ok(pg.evaluate("document.querySelectorAll('.vstrip .vc').length")==5,f'{name}: home shows 5 vertical project cards')
+        ok(pg.evaluate("document.querySelectorAll('.vstrip .vc').length")==4,f'{name}: home shows 4 vertical project cards')
         # reel lazy
         pg.goto(B+'index.html');pg.wait_for_timeout(300)
         ok(pg.evaluate("document.querySelector('#reel video')")is None,f'{name}: video not loaded until play')

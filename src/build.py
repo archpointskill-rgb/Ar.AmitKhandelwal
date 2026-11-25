@@ -25,14 +25,14 @@ PR=[
 ('residential','Rakesh Ji Residence','Residence',[('rakesh-exterior','Exterior'),('rakesh-interior','Interiors')]),
 ('residential','Sangeeta Ji Residence, Ajmer','Residence · 2025',[('sangeeta-exterior','Exterior'),('sangeeta-living','Living'),('sangeeta-lounge','Lounge'),('sangeeta-bedroom','Bedroom')]),
 ('residential','Godara Ji Residence','Residence · 2025',[('godhara-exterior','Exterior'),('godara-bedroom','Bedroom'),('godara-stair','Staircase'),('godara-dining','Dining'),('godara-pooja','Pooja room'),('godhara-hall','Hall'),('godhara-tv','Living')]),
-('residential','Bhagwati Ji Residence, Ajmer','Residence',[('bhagwati-exterior','Exterior'),('bhagwati-hall','Hall'),('bhagwati-living','Living')]),
+('residential','Bhagwati Ji Residence, Ajmer','Residence',[('bhagwati-front','Front'),('bhagwati-gate','Entrance'),('bhagwati-exterior','Exterior'),('bhagwati-hall','Hall'),('bhagwati-living','Living'),('bhagwati-first-floor','First-floor living'),('bhagwati-bedroom','Bedroom'),('bhagwati-suite','Master suite'),('bhagwati-kids','Kids room')]),
 ('residential','Bhagwati Ji Out House','Out house',[('bhagwati-outhouse','Exterior')]),
 ('residential','Kapil Ji Out House','Out house',[('kapil-exterior','Exterior'),('kapil-living','Living')]),
 ('residential','Kailash Ji Residence','Residence · PMC',[('kailash-exterior','Exterior'),('kailash-bedroom','Bedroom')]),
 ('residential','Vikas Jain Ji Residence','Residence · PMC',[('vikas-exterior','Exterior')]),
 ('residential','High-end Residence','Residence · PMC',[('pmc-exterior','Exterior'),('pmc-living','Living'),('pmc-foyer','Foyer')]),
 ('residential','Jayesh Ji Residence, Dubai','Architecture, PMC & Interiors',[('jayesh-dining','Dining'),('jayesh-living','Living')]),
-('residential','BnB, Siddharth Nagar, Jaipur','Hospitality residence',[('airbnb-siddharth','Exterior')]),
+('residential','BnB, Siddharth Nagar, Jaipur','Hospitality residence',[('airbnb-siddharth','Exterior'),('bnb-living','Living'),('bnb-dining','Dining'),('bnb-bath','Bathroom')]),
 ('commercial','YY London','Commercial tower',[('yy-london','Exterior')]),
 ('commercial','Fair Field','Mixed use',[('fairfield','Exterior')]),
 ('commercial','72 Parksyde','High-rise',[('parksyde','Exterior')]),
@@ -42,24 +42,25 @@ PR=[
 ('commercial','Hem Securities Office','Office tower',[('hem-office','Exterior')]),
 ('commercial','Hem Securities Residence','Residence',[('hem-residence','Interior in progress')]),
 ('commercial','Agrasen Industries, Mahindra SEZ','Industrial · 7.5 acres',[('agrasen-exterior','Plant'),('agrasen-interior','Interior')]),
-('hospitality','Grassfield Resorts, Delhi Road','Resort',[('grassfield-pool','Pool'),('grassfield-banquet','Banquet'),('grassfield-night','Night'),('grassfield-aerial','Aerial'),('grassfield-suite','Suite')]),
+('hospitality','Grassfield Resorts, Delhi Road','Resort',[('grassfield-clubhouse','Clubhouse'),('grassfield-cottages','Cottages'),('grassfield-landscape-night','Landscape by night'),('grassfield-pool-night','Pool by night'),('grassfield-banquet-hall','Banquet'),('grassfield-room-dome','Dome suite'),('grassfield-room-bath','Suite with bath'),('grassfield-pool','Pool'),('grassfield-aerial','Aerial'),('grassfield-suite','Suite')]),
 ('hospitality','Pushkar Resort','Resort',[('pushkar-cottages','Cottages'),('pushkar-main','Main block'),('pushkar-club','Clubhouse')]),
 ('hospitality','Aamrai Mango Resort','Resort · with Pentaspace',[('aamrai-garden','Garden'),('aamrai-dining','Dining'),('aamrai-suite','Suite')]),
+('hospitality','Zion Club','Club · with CAID',[('zion-1','Entrance'),('zion-2','Lounge'),('zion-3','Lobby'),('zion-5','Restaurant'),('zion-6','Banquet'),('zion-4','Gym'),('zion-7','Badminton'),('zion-8','Cricket net')]),
 ('hospitality','Hotel Kapish','Hotel',[('kapish-exterior','Exterior'),('kapish-lobby','Lobby')]),
-('hospitality','Hotel Regenta (Royal Orchid), Khatu','Hotel',[('regenta-exterior','Exterior'),('regenta-dining','Dining'),('regenta-pool','Pool')]),
-('civic','Todarmal Smarak','Civic landmark',[('todarmal-render','Exterior'),('todarmal-night','By night'),('todarmal-front','Front view'),('todarmal-temple','Temple'),('todarmal-hall','Sanctum')]),
-('civic','Dhai Dweep, Indore','Religious',[('dhai-dweep','Exterior')]),
+('hospitality','Hotel Regenta (Royal Orchid), Khatu','Hotel',[('regenta-exterior','Exterior'),('regenta-facade','Front facade'),('regenta-courtyard','Courtyard & pool'),('regenta-dining','Dining'),('regenta-pool','Pool')]),
+('civic','Todarmal Smarak','Civic landmark',[('todarmal-facade','Front porch'),('todarmal-render','Exterior'),('todarmal-pavilion','Pavilion'),('todarmal-pavilion-crowd','Ceremony'),('todarmal-night','By night'),('todarmal-front','Front view'),('todarmal-temple','Temple'),('todarmal-hall','Sanctum')]),
+('civic','Dhai Dweep, Indore','Religious',[('dhai-aerial','Front & gateway'),('dhai-dweep','Exterior'),('dhai-dome-night','Dome by night'),('dhai-model-hall','Model hall'),('dhai-card-render','Hall render'),('dhai-model-tower','Model towers')]),
 ('civic','Jain Temple, Kota','Religious',[('jain-temple','Exterior')]),
 ('civic','Jain Sant Bhawan','Religious',[('sant-bhawan','Exterior')]),
 ('institutional','Bhagwant University, Pali','Auditorium & campus',[('bhagwant-univ','Entrance'),('bhagwant-auditorium','Auditorium')]),
 ('institutional','CLC Institute','Institutional',[('clc-institute','Exterior')]),
 ('institutional','Global School, Hyderabad','43,934 sq ft',[('global-school','Campus')]),
-('healthcare','Amar Jain Hospital, Jaipur','Architecture, interiors & PMC',[('amarjain-exterior','Design render'),('amarjain-building','Building'),('amarjain-ward','Ward'),('amarjain-lobby','Reception')]),
+('healthcare','Amar Jain Hospital, Jaipur','Architecture, interiors & PMC',[('amarjain-front-day','Front'),('amarjain-front','Front at dusk'),('amarjain-aerial','Aerial'),('amarjain-render','Design render'),('amarjain-reception','Reception'),('amarjain-helpdesk','Help desk'),('amarjain-icu-ward','Ward')]),
 ]
 CATN={'residential':'Residential','commercial':'Commercial & Industrial','hospitality':'Hospitality','civic':'Religious & Civic','institutional':'Institutional','healthcare':'Healthcare'}
 import html as H
 from PIL import Image as _I
-SIG=[('baxi','Baxi Niwas','Baxi Niwas','Residence'),('regenta','Hotel Regenta','Hotel Regenta','Khatu · Hotel'),('dhai','Dhai Dweep','Dhai Dweep','Indore · Religious'),('grassfield','Grassfield Resorts','Grassfield','Delhi Road · Resort'),('todarmal','Todarmal Smarak','Todarmal','Civic landmark'),('bnb','BnB','BnB','Siddharth Nagar, Jaipur')]
+SIG=[('baxi','Baxi Niwas','Baxi Niwas','Residence'),('grassfield','Grassfield Resorts','Grassfield','Delhi Road · Resort'),('regenta','Hotel Regenta','Hotel Regenta','Khatu · Hotel'),('dhai','Dhai Dweep','Dhai Dweep','Indore · Religious'),('todarmal','Todarmal Smarak','Todarmal','Civic landmark'),('bhagwati','Bhagwati Ji Residence','Bhagwati Ji Residence','Ajmer · Residence'),('zion','Zion Club','Zion Club','Club · CAID'),('amarjain','Amar Jain Hospital','Amar Jain Hospital','Jaipur · Healthcare'),('bnb','BnB','BnB','Siddharth Nagar, Jaipur')]
 def sigp(key): return [x for x in PR if x[1].startswith(key)][0]
 def imgs_attr(im):
     for f,l in im: assert ',' not in l and '|' not in l
@@ -96,7 +97,7 @@ AWB=[('ach-iibl-certificate','Most Admired Architecture Company'),('ach-pride-of
 def awcol(lst,cls=''):
     one=lambda hid:''.join(f'<a href="gallery.html#achievements"{" aria-hidden=\"true\" tabindex=\"-1\"" if hid else ""}><img src="assets/img/t/{f}.jpg" alt="{"" if hid else H.escape(t)}" loading="lazy" decoding="async"><b>{H.escape(t)}</b></a>' for f,t in lst)
     return f'<div class="vcol{cls}">{one(False)}{one(True)}</div>'
-HIGH=[('baxi-exterior','Baxi Niwas','Residence'),('regenta-exterior','Hotel Regenta','Khatu'),('todarmal-render','Todarmal Smarak','Civic landmark'),('grassfield-night','Grassfield Resorts','Delhi Road'),('team','The Arch Point family','100+ professionals')]
+HIGH=[('baxi-exterior','Baxi Niwas','Residence'),('grassfield-night','Grassfield Resorts','Delhi Road'),('regenta-exterior','Hotel Regenta','Khatu'),('dhai-aerial','Dhai Dweep','Indore'),('team','The Arch Point family','100+ professionals')]
 AWALL=AWA+AWB
 def awrow(hid):
     return ''.join(f'<a href="gallery.html#achievements"{" aria-hidden=\"true\" tabindex=\"-1\"" if hid else ""}><img src="assets/img/t/{f}.jpg" alt="{"" if hid else H.escape(t)}" loading="lazy" decoding="async"></a>' for f,t in AWALL)
@@ -118,7 +119,7 @@ home=f'''<section class="hero"><div class="wrap"><div>
 <section style="padding-top:20px"><div class="wrap split"><div class="imgrv rv" style="aspect-ratio:4/5"><img src="assets/img/sangeeta-exterior.jpg" alt="Sangeeta Ji Residence, Ajmer" loading="lazy" decoding="async"></div>
 <div class="rv d1"><div class="eyebrow">The philosophy</div><p class="bigq">Buildings should do more than <mark class="hl">stand</mark>. They should hold <mark class="hl b">families</mark>, <mark class="hl o">businesses</mark> and futures.</p><p class="lead" style="margin:24px 0">Ar. Amit Khandelwal and Ar. Poonam Jain built Arch Point on one belief: accuracy in the plan and perfection in the detail. What began as a two-person team with a paper attendance register is today a studio of 100+ professionals.</p><a class="btn ghost" href="about.html">The Arch Point story {ARR}</a></div></div></section>
 <div class="band"><div><span class="outline">Design</span><span>is our love</span><span class="outline">Design</span><span>is our love</span><span class="outline">Design</span><span>is our love</span><span class="outline">Design</span><span>is our love</span></div></div>
-<section><div class="wrap"><div class="eyebrow">Selected work</div><h2 class="rv">Projects that <mark class="hl">speak</mark> for us</h2><div class="vstrip" style="margin-top:34px">{''.join(vcard(i,n,sb,k,False) for i,n,k,sb in SIG[:5])}</div>
+<section><div class="wrap"><div class="eyebrow">Selected work</div><h2 class="rv">Projects that <mark class="hl">speak</mark> for us</h2><div class="vstrip" style="margin-top:34px">{''.join(vcard(i,n,sb,k,False) for i,n,k,sb in SIG[:4])}</div>
 <div style="text-align:center;margin-top:30px"><a class="btn" href="projects.html">All projects {ARR}</a> <a class="btn ghost" href="gallery.html">Open gallery</a></div></div></section>
 <section><div class="wrap"><div class="eyebrow">Showreel</div><h2 class="rv">Our work, <mark class="hl o">in motion</mark></h2><div class="reel rv" id="reel"><img src="assets/showreel-poster.jpg" alt="Arch Point showreel: architecture, interiors and PMC" loading="lazy" decoding="async"><button class="rp" type="button" aria-label="Play showreel"><svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div></div></section>
 <section class="dots"><div class="wrap"><div class="eyebrow">How we work</div><h2 class="rv">Four <mark class="hl o">pillars</mark>, one promise</h2><div class="bento">
