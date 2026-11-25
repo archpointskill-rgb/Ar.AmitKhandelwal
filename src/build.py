@@ -18,6 +18,11 @@ def _v(f): return hashlib.md5(open('/home/claude/amit-site/'+f,'rb').read()).hex
 def page(fn,title,desc,body,extra=''):
     html=f'''<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title}</title><meta name="description" content="{desc}"><meta name="color-scheme" content="light">{FONTS}<link rel="icon" href="{LOGO}"><link rel="stylesheet" href="css/site.css?v={_v("css/site.css")}"></head><body>{nav(fn)}<main>{body}</main>{FOOT}{extra}<script src="js/site.js?v={_v("js/site.js")}"></script></body></html>'''
     open(fn,'w').write(html)
+import re as _re
+def ico(n):
+    t=open('/home/claude/amit-site/src_icons/'+n+'.svg').read()
+    t=_re.sub(r'<!--.*?-->','',t,flags=_re.S).replace('width="24"','width="22"').replace('height="24"','height="22"').replace('class="lucide lucide-'+n+'"','class="ic" aria-hidden="true"')
+    return t.strip()
 ARR='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 # gallery data: (cat, project, place/type, [(file,label)])
 PR=[
@@ -65,12 +70,14 @@ def sigp(key): return [x for x in PR if x[1].startswith(key)][0]
 def imgs_attr(im):
     for f,l in im: assert ',' not in l and '|' not in l
     return ','.join(f'{f}|{l}' for f,l in im)
-def vcard(i,name,sub,key,gal=True):
+def vcard(i,name,sub,key,gal=True,feat=False):
     c,n,k,im=sigp(key)
     n_=len(im); cnt=f'{n_} {"photo" if n_==1 else "photos"}'
     href=f'#{i}' if gal else f'gallery.html#{i}'
     da=f' data-t="{H.escape(name)}" data-imgs="{imgs_attr(im)}"' if gal else ''
-    return f'<a class="vc rv" id="{i}" href="{href}"{da}><span class="ph"><img src="assets/img/t/{im[0][0]}.jpg" alt="{H.escape(name)}" loading="lazy" decoding="async"><em>{cnt}</em></span><span class="vm"><b>{name}</b><small>{sub}</small></span></a>'.replace(f' id="{i}"',f' id="{i}"' if gal else '')
+    d='' if feat else 't/'
+    cl='vc vfeat rv' if feat else 'vc rv'
+    return f'<a class="{cl}" id="{i}" href="{href}"{da}><span class="ph"><img src="assets/img/{d}{im[0][0]}.jpg" alt="{H.escape(name)}" loading="lazy" decoding="async"><em>{cnt}</em></span><span class="vm"><b>{name}</b><small>{sub}</small></span></a>'.replace(f' id="{i}"',f' id="{i}"' if gal else '')
 def slides(lst,hq=False):
     o=''
     for f,t,k in lst:
@@ -111,28 +118,21 @@ home=f'''<section class="hero"><div class="wrap"><div>
 <p class="tagline">Where <mark class="hl">design</mark> meets <mark class="hl b">purpose</mark>.</p>
 <div class="cta"><a class="btn" href="contact.html">Book appointment {ARR}</a><a class="btn ghost" href="projects.html">View projects</a></div><ul class="trust"><li>ISO recognised</li><li>Startup India</li><li>Vastu &amp; energy aligned</li></ul></div>
 <div class="portrait"><div class="arch"><div class="mono">AK</div><img src="assets/amit-2026.jpg" alt="Ar. Amit Khandelwal" fetchpriority="high" decoding="async"></div>
-<div class="plate"><b>Ar. Amit Khandelwal</b><span>Founder &amp; CMD &middot; Arch Point Group</span></div></div></div><div class="blob b1"></div><div class="blob b2"></div><svg class="orbit" viewBox="0 0 200 200"><circle cx="100" cy="100" r="96"/><circle cx="100" cy="100" r="70"/></svg><div id="elev"></div></section>
+<img class="fl f1" src="assets/img/t/grassfield-clubhouse.jpg" alt="Grassfield Resorts" loading="eager"><img class="fl f2" src="assets/img/t/baxi-exterior.jpg" alt="Baxi Niwas" loading="eager"><img class="fl f3" src="assets/img/t/regenta-exterior.jpg" alt="Hotel Regenta" loading="eager"><div class="plate"><b>Ar. Amit Khandelwal</b><span>Founder &amp; CMD &middot; Arch Point Group</span></div></div></div><div class="blob b1"></div><div class="blob b2"></div><svg class="orbit" viewBox="0 0 200 200"><circle cx="100" cy="100" r="96"/><circle cx="100" cy="100" r="70"/></svg><div id="elev"></div></section>
 <div class="ticker"><div><span>Architecture</span><span>Interior Design</span><span>Project Management</span><span>Real Estate</span><span>Wellness</span><span>Technology</span><span>Architecture</span><span>Interior Design</span><span>Project Management</span><span>Real Estate</span><span>Wellness</span><span>Technology</span></div></div>
-<section><div class="wrap"><div class="numbers"><div><b data-n="27">0</b><small>Years of experience</small></div><div><b data-n="500">0</b><small>Projects delivered</small></div><div><b data-n="10">0</b><small>Locations across the globe</small></div><div><b data-n="100">0</b><small>Team members</small></div></div></div></section>
-<section class="hlsec"><div class="wrap"><div class="eyebrow">Highlights</div>{car(HIGH,True)}</div></section>
-<section class="awsec"><div class="wrap"><div class="eyebrow">Awards &amp; recognition</div></div><div class="hmar rv" aria-label="Awards and achievements"><div class="hrow">{awrow(False)}{awrow(True)}</div></div></section>
+<section class="hlsec"><div class="wrap"><div class="eyebrow">Signature work</div><h2 class="rv">Spaces that <mark class="hl">stand</mark> out</h2><div style="height:22px"></div>{car(HIGH,True)}</div></section>
+<section><div class="wrap"><div class="numbers"><div><b data-n="27">0</b>{ico('calendar-check')}<small>Years of experience</small></div><div><b data-n="500">0</b>{ico('building-2')}<small>Projects delivered</small></div><div><b data-n="10">0</b>{ico('globe')}<small>Locations across the globe</small></div><div><b data-n="100">0</b>{ico('users')}<small>Team members</small></div></div></div></section>
 <section style="padding-top:20px"><div class="wrap split"><div class="imgrv rv" style="aspect-ratio:4/5"><img src="assets/img/sangeeta-exterior.jpg" alt="Sangeeta Ji Residence, Ajmer" loading="lazy" decoding="async"></div>
 <div class="rv d1"><div class="eyebrow">The philosophy</div><p class="bigq">Buildings should do more than <mark class="hl">stand</mark>. They should hold <mark class="hl b">families</mark>, <mark class="hl o">businesses</mark> and futures.</p><p class="lead" style="margin:24px 0">Ar. Amit Khandelwal and Ar. Poonam Jain built Arch Point on one belief: accuracy in the plan and perfection in the detail. What began as a two-person team with a paper attendance register is today a studio of 100+ professionals.</p><a class="btn ghost" href="about.html">The Arch Point story {ARR}</a></div></div></section>
-<div class="band"><div><span class="outline">Design</span><span>is our love</span><span class="outline">Design</span><span>is our love</span><span class="outline">Design</span><span>is our love</span><span class="outline">Design</span><span>is our love</span></div></div>
 <section><div class="wrap"><div class="eyebrow">Selected work</div><h2 class="rv">Projects that <mark class="hl">speak</mark> for us</h2><div class="vstrip" style="margin-top:34px">{''.join(vcard(i,n,sb,k,False) for i,n,k,sb in SIG[:4])}</div>
 <div style="text-align:center;margin-top:30px"><a class="btn" href="projects.html">All projects {ARR}</a> <a class="btn ghost" href="gallery.html">Open gallery</a></div></div></section>
+<section class="awsec"><div class="wrap"><div class="eyebrow">Awards &amp; recognition</div></div><div class="hmar rv" aria-label="Awards and achievements"><div class="hrow">{awrow(False)}{awrow(True)}</div></div></section>
 <section><div class="wrap"><div class="eyebrow">Showreel</div><h2 class="rv">Our work, <mark class="hl o">in motion</mark></h2><div class="reel rv" id="reel"><img src="assets/showreel-poster.jpg" alt="Arch Point showreel: architecture, interiors and PMC" loading="lazy" decoding="async"><button class="rp" type="button" aria-label="Play showreel"><svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div></div></section>
-<section class="dots"><div class="wrap"><div class="eyebrow">How we work</div><h2 class="rv">Four <mark class="hl o">pillars</mark>, one promise</h2><div class="bento">
-<div class="bx a spot rv"><svg class="conc" viewBox="0 0 200 200"><circle cx="100" cy="100" r="30"/><circle cx="100" cy="100" r="55"/><circle cx="100" cy="100" r="80"/><circle cx="100" cy="100" r="98"/></svg><span class="no">01</span><h3>Vertical energy design</h3><p>Science, Vastu, energy alignment and design innovation come together, so that your space performs well beyond aesthetics.</p></div>
-<div class="bx spot rv d1"><span class="no">02</span><h3>Accuracy is our goal</h3><p>Over 500 projects delivered by listening before we draw.</p></div>
-<div class="bx y spot rv d2"><span class="no">03</span><h3>Expert team</h3><p>A studio of 100+ architects, designers and PMC specialists.</p></div>
-<div class="bx img rv d1"><img src="assets/img/pushkar-main.jpg" alt="Pushkar Resort" loading="lazy" decoding="async" style="object-position:center 40%"><div class="cap"><span class="no">04</span><h3>Design is our love</h3><p>From concept to completion, delivered with passion.</p></div></div></div></div></section>
 <section><div class="wrap"><div class="eyebrow">What we offer</div><h2 class="rv">Four ways we <mark class="hl">build</mark> with you</h2><div class="svc">
-<a class="rv" href="projects.html"><i>01</i><div><h3>Architectural Design</h3><p>Innovative, sustainable design shaped around your vision.</p></div><span class="go">{ARR}</span></a>
-<a class="rv d1" href="projects.html"><i>02</i><div><h3>Interior Design</h3><p>Refined, functional interiors that reflect your personality and purpose.</p></div><span class="go">{ARR}</span></a>
-<a class="rv d2" href="projects.html"><i>03</i><div><h3>Project Management Consultancy</h3><p>Closely managed planning, coordination and execution for timely, cost-effective delivery.</p></div><span class="go">{ARR}</span></a>
-<a class="rv d3" href="contact.html"><i>04</i><div><h3>Real Estate</h3><p>Site feasibility, investment guidance and development support for plots and projects.</p></div><span class="go">{ARR}</span></a></div></div></section>
-<section style="background:#fff;border-block:1px solid var(--line)"><div class="wrap"><div class="eyebrow">The group</div><h2 class="rv">Three firms, one <mark class="hl b">promise</mark></h2><div class="firms mini" style="margin-top:36px"><a class="firm rv" href="https://www.archpoint.in" target="_blank" rel="noopener"><div class="fl"><img src="assets/img/logo-apcl.png" alt="Arch Point Consultants"></div><h3>Consultants</h3><p>Architecture, interiors and PMC.</p></a><a class="firm rv d1" href="https://www.ekasa.in" target="_blank" rel="noopener"><div class="fl"><img src="assets/img/logo-apw.png" alt="Arch Point Wellness"></div><h3>Wellness</h3><p>EKASA and wellbeing design.</p></a><a class="firm rv d2" href="https://www.archpoint.in" target="_blank" rel="noopener"><div class="fl"><img src="assets/img/logo-apt.png" alt="Arch Point Technology"></div><h3>Technology</h3><p>Software, automation and AI.</p></a></div></div></section>
+<a class="rv" href="projects.html"><i>{ico('building-2')}</i><div><h3>Architectural Design</h3><p>Innovative, sustainable design shaped around your vision.</p></div><span class="go">{ARR}</span></a>
+<a class="rv d1" href="projects.html"><i>{ico('armchair')}</i><div><h3>Interior Design</h3><p>Refined, functional interiors that reflect your personality and purpose.</p></div><span class="go">{ARR}</span></a>
+<a class="rv d2" href="projects.html"><i>{ico('clipboard-check')}</i><div><h3>Project Management Consultancy</h3><p>Closely managed planning, coordination and execution for timely, cost-effective delivery.</p></div><span class="go">{ARR}</span></a>
+<a class="rv d3" href="contact.html"><i>{ico('landmark')}</i><div><h3>Real Estate</h3><p>Site feasibility, investment guidance and development support for plots and projects.</p></div><span class="go">{ARR}</span></a></div></div></section>
 <section><div class="wrap"><div class="eyebrow">Client voices</div><h2 class="rv">Trusted by <mark class="hl">families</mark> and businesses</h2><div class="tmar"><div>{tcards(TEST)}{tcards(TEST)}</div></div><p style="margin-top:30px"><a class="btn ghost" href="about.html#voices">Read more reviews {ARR}</a></p></div></section>
 <section><div class="wrap"><div class="quote rv"><blockquote>Your dream is our <mark class="hl">mission</mark>, accuracy is our goal, <mark class="hl">perfection</mark> is our attitude.</blockquote><cite>The Arch Point creed</cite></div></div></section>
 {CTA}'''
@@ -174,7 +174,6 @@ about=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">About
 <div><span class="d">ISO</span><div><h3>ISO recognition</h3><p>Recognised for our commitment to quality.</p></div></div>
 <div><span class="d">Govt</span><div><h3>Startup recognition</h3><p>Recognised as a startup by the Government of India.</p></div></div>
 <div><span class="d">Pod</span><div><h3>Skyline Sessions: Rajasthan</h3><p>Podcast with Pentaspace Design Studio.</p></div></div></div></div></section>
-<section id="voices"><div class="wrap"><div class="eyebrow">Client voices</div><h2 class="rv">What our clients <mark class="hl">say</mark></h2><div class="tgrid" style="margin-top:40px">{tcards(TEST)}</div></div></section>
 {CTA}'''
 page('about.html','About | Ar. Amit Khandelwal','The story of Ar. Amit Khandelwal and Arch Point Consultants Pvt. Ltd.: from Home Aura Arch Point to a 100+ member studio.',about)
 # ---------- PROJECTS
@@ -197,7 +196,7 @@ ACH=[('ach-iibl-trophy','Indian Iconic Brands & Leaders Award','IIBL Awards Winn
 gal=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">Gallery</div><h1>The work, <mark class="hl b">in frames</mark></h1><p class="lead">Signature projects, our team, events and achievements. Tap any card to view it large.</p>
 <div class="filters tabs" role="tablist"><button class="on" data-tab="projects" type="button">Signature projects</button><button data-tab="team" type="button">Team</button><button data-tab="events" type="button">Events</button><button data-tab="achievements" type="button">Achievements</button></div></div></section>
 <section style="padding-top:0"><div class="wrap">
-<div class="gp" data-p="projects"><div class="vgrid">{''.join(vcard(i,n,sb,k) for i,n,k,sb in SIG)}</div></div>
+<div class="gp" data-p="projects"><div class="vgrid">{''.join(vcard(i,n,sb,k,True,j==0) for j,(i,n,k,sb) in enumerate(SIG))}</div></div>
 <div class="gp" data-p="team"><p class="gnote">The people behind every project.</p>{car(TEAM)}</div>
 <div class="gp" data-p="events"><p class="gnote">Celebrations, wellness days and distinguished guests.</p>{car(EVT)}</div>
 <div class="gp" data-p="achievements"><p class="gnote">Awards and recognition that honour the work.</p>{car(ACH)}</div>
@@ -217,6 +216,6 @@ contact=f'''<section class="pagehead"><div class="wrap"><div class="eyebrow">Con
 <div class="f full"><label for="ms">Message (optional)</label><textarea id="ms" rows="3"></textarea></div>
 <div class="full"><button class="btn" type="submit">Send on WhatsApp {ARR}</button></div>
 <div id="ok"><b>Opening WhatsApp&hellip;</b> If nothing opened, <a id="okLink" href="#" target="_blank" rel="noopener" style="text-decoration:underline;color:var(--blue)">tap here to open WhatsApp</a>.</div></form>
-<div class="info rv"><div class="wp" aria-live="polite"><small>Preview of your WhatsApp message</small><div class="bub" id="pv">Hello Ar. Amit Khandelwal, I would like to book an appointment.</div></div><div><small>WhatsApp</small><a href="https://wa.me/919982507555">+91 99825 07555</a></div><div><small>Phone</small><a href="tel:+919982507555">+91 99825 07555</a></div><div><small>Email</small><a href="mailto:connect@archpointgp.com">connect@archpointgp.com</a></div><div><small>Website</small><a href="https://archpoint.in" target="_blank" rel="noopener">archpoint.in</a></div><div><small>Instagram</small><a href="https://instagram.com/archpoint_architecture" target="_blank" rel="noopener">@archpoint_architecture</a></div><div><small>Studio</small><span>Plot No. 92/64, Patel Marg, Sector 9, Mansarovar, Jaipur</span></div><div style="border:0"><button class="btn ghost" id="vcard" type="button">Save contact</button></div></div></div></section>'''
+<div class="info rv"><div class="wp" aria-live="polite"><small>Preview of your WhatsApp message</small><div class="bub" id="pv">Hello Ar. Amit Khandelwal, I would like to book an appointment.</div></div><div><small>{ico('message-circle')}WhatsApp</small><a href="https://wa.me/919982507555">+91 99825 07555</a></div><div><small>{ico('phone')}Phone</small><a href="tel:+919982507555">+91 99825 07555</a></div><div><small>{ico('mail')}Email</small><a href="mailto:connect@archpointgp.com">connect@archpointgp.com</a></div><div><small>{ico('globe')}Website</small><a href="https://archpoint.in" target="_blank" rel="noopener">archpoint.in</a></div><div><small>{ico('at-sign')}Instagram</small><a href="https://instagram.com/archpoint_architecture" target="_blank" rel="noopener">@archpoint_architecture</a></div><div><small>{ico('map-pin')}Studio</small><span>Plot No. 92/64, Patel Marg, Sector 9, Mansarovar, Jaipur</span></div><div style="border:0"><button class="btn ghost" id="vcard" type="button">Save contact</button></div></div></div></section>'''
 page('contact.html','Book an Appointment | Ar. Amit Khandelwal','Book an appointment with Ar. Amit Khandelwal via WhatsApp.',contact)
 print('built')

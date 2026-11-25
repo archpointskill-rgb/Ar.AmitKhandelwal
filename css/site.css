@@ -12,7 +12,7 @@ h2{font-size:clamp(2.2rem,5vw,3.8rem)}h3{font-size:1.6rem}
 .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);font-weight:700;margin-bottom:18px}
 .eyebrow:before{content:"";width:34px;height:1px;background:var(--blue)}
 .lead{font-size:1.12rem;color:var(--muted);max-width:60ch}
-section{padding:96px 0;position:relative}
+section{padding:76px 0;position:relative}
 /* nav */
 .nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(245,247,250,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:74px}
@@ -371,7 +371,7 @@ footer .plogo{width:210px;max-width:100%;margin-bottom:14px}
 .vc .vm{display:block;padding:12px 2px 0}
 .vc .vm b{display:block;font-family:var(--serif);font-weight:400;font-size:1.3rem;line-height:1.15}
 .vc .vm small{display:block;margin-top:4px;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);font-weight:800}
-.vstrip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px}
+.vstrip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
 .vgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px 22px}
 .vc:target .ph{outline:3px solid var(--yellow);outline-offset:3px}
 .pk{background:none;border:0;padding:0;font:inherit;text-align:left;cursor:pointer}
@@ -392,7 +392,7 @@ footer .plogo{width:210px;max-width:100%;margin-bottom:14px}
 @media(hover:none){.cb{display:none}}
 @media(max-width:900px){
  .vstrip{grid-template-columns:repeat(6,minmax(0,1fr));gap:14px 10px}
- .vstrip .vc{grid-column:span 2}.vstrip .vc:nth-child(-n+2){grid-column:span 3}
+ .vstrip .vc{grid-column:span 3}
  .vstrip .vc .ph{aspect-ratio:1/1}.vstrip .vc .ph img{aspect-ratio:1/1}
  .vgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}
  .cs{height:300px}
@@ -477,3 +477,25 @@ footer{background:linear-gradient(180deg,var(--navy),#07152F);border-top:5px sol
 .filters button.on,.tabs button.on{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;border-color:transparent}
 .cs figcaption span,.vc .ph em{color:var(--yellow)}
 .eyebrow{color:var(--blue)}
+
+/* ui icons (Lucide, inlined) + spacing */
+.ic{flex:none;stroke-width:1.8}
+.svc a>i{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:var(--sky);color:var(--blue);font-style:normal;transition:.35s}
+.svc a:hover>i{background:var(--ink);color:var(--yellow)}
+.numbers>div{position:relative}.numbers .ic{display:block;width:26px;height:26px;margin-bottom:14px;color:var(--yellow)}
+.info small{display:flex;align-items:center;gap:8px}.info small .ic{width:16px;height:16px;color:var(--blue)}
+.pagehead{padding:76px 0 40px}footer{margin-top:0}
+.band{padding:28px 0}
+
+/* gallery: featured + 6-col rhythm */
+.vgrid{grid-template-columns:repeat(6,minmax(0,1fr))}
+.vgrid .vc{grid-column:span 2}.vgrid .vc:nth-child(n+8){grid-column:span 3}
+.vgrid .vc.vfeat{grid-column:1/-1}
+.vfeat .ph{aspect-ratio:21/9;border-radius:14px}.vfeat .ph img{aspect-ratio:21/9;object-position:center 40%}
+.vfeat .vm{position:absolute;left:0;right:0;bottom:0;padding:70px 34px 26px;background:linear-gradient(0deg,rgba(11,33,71,.88),transparent);border-radius:0 0 14px 14px;color:#fff}
+.vfeat{position:relative}.vfeat .vm b{color:#fff;font-size:clamp(1.8rem,4vw,3rem)}.vfeat .vm small{color:var(--yellow)}
+.vgrid .vc:nth-child(n+8) .ph,.vgrid .vc:nth-child(n+8) .ph img{aspect-ratio:3/2}
+/* hero floating project photos */
+.fl{position:absolute;width:128px;aspect-ratio:4/3;object-fit:cover;border:5px solid #fff;border-radius:12px;box-shadow:0 18px 40px rgba(12,27,51,.22);z-index:3;animation:bob 6s ease-in-out infinite}
+.fl.f1{left:-74px;top:10%}.fl.f2{right:-34px;top:2%;animation-delay:-2s;width:112px;aspect-ratio:1}.fl.f3{left:-46px;bottom:20%;animation-delay:-4s;width:110px}
+@media(max-width:900px){.fl.f1{left:-8px;top:2%;width:92px}.fl.f2{right:-4px;top:-2%;width:84px}.fl.f3{left:-6px;bottom:16%;width:84px}.vgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.vgrid .vc,.vgrid .vc:nth-child(n+8){grid-column:span 1}.vgrid .vc.vfeat{grid-column:1/-1}.vfeat .ph,.vfeat .ph img{aspect-ratio:4/3}.vgrid .vc:nth-child(n+8) .ph,.vgrid .vc:nth-child(n+8) .ph img{aspect-ratio:4/5}.vfeat .vm{padding:50px 18px 18px}}
